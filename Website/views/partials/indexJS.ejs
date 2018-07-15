@@ -7,5 +7,11 @@
   //socket.on('event', function(data){});
   //socket.on('disconnect', function(){});
 
-  
+  $((function(){
+    console.log("JQuery loaded!");
+    $("#fileInput").on('change', (event)=>{
+      console.log("Change in file!");
+      console.log(event);
+    })
+  });
 </script>
