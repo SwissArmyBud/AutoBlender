@@ -2,17 +2,23 @@ var express = require('express');    //Express Web Server
 var busboy = require('connect-busboy'); //middleware for form/file upload
 var path = require('path');     //used for file path
 var fs = require('fs-extra');       //File System - for file manipulation
-
 var app = express();
+
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
+
+var basicRoutes = require(path.join(__dirname, 'Website/routes/basic'));
+
 app.use(busboy());
 app.use(express.static(path.join(__dirname, 'Website/public')));
+app.use(basicRoutes);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'Website/views/pages'));
 /* ========================================================== 
 Create a Route (/upload) to handle the Form submission 
 (handle POST requests to /upload)
 Express v4  Route definition
-============================================================ */
+============================================================ 
 app.route('/upload')
     .post(function (req, res, next) {
 
@@ -35,10 +41,11 @@ app.route("/")
     console.log("Rendering index for get request...");
     res.render('index');
 });
+*/
 app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(500).send('Something broke!')
 })
-var server = app.listen(30303, function() {
+server.listen(30303, function() {
     console.log('Listening on port %d', server.address().port);
 });
