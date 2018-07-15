@@ -5,8 +5,9 @@ var fs = require('fs-extra');       //File System - for file manipulation
 
 var app = express();
 app.use(busboy());
-app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(path.join(__dirname, 'Website/public')));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'Website/views/pages'));
 /* ========================================================== 
 Create a Route (/upload) to handle the Form submission 
 (handle POST requests to /upload)
@@ -29,7 +30,15 @@ app.route('/upload')
             });
         });
     });
-
-var server = app.listen(3030, function() {
+app.route("/")
+    .get(function(req, res) {
+    console.log("Rendering index for get request...");
+    res.render('index');
+});
+app.use(function (err, req, res, next) {
+  console.error(err.stack)
+  res.status(500).send('Something broke!')
+})
+var server = app.listen(30303, function() {
     console.log('Listening on port %d', server.address().port);
 });
