@@ -10,12 +10,24 @@
 
 <header>
     <% include ../partials/topmenu %>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('connect', function(){console.log("Connected to socketIO!");});
+  socket.on('event', function(data){});
+  socket.on('disconnect', function(){});
+</script>
+
 </header>
 
 <main>
     <div class="jumbotron">
         <h1>This is great</h1>
         <p>Welcome to templating using EJS</p>
+	<input type="file" name="file" id="file" class="inputfile" style="visibility:hidden"/>
+	<label for="file">Choose a file</label>
     </div>
 </main>
 

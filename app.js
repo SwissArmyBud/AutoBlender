@@ -6,7 +6,14 @@ var app = express();
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-
+io.on('connection', function(socket){
+  console.log("Client connected!");
+  console.log(socket.id);
+  socket.on('disconnect', function(){
+    console.log("Client disconnected!");
+    console.log(socket.id);
+  });
+});
 var basicRoutes = require(path.join(__dirname, 'Website/routes/basic'));
 
 app.use(busboy());
