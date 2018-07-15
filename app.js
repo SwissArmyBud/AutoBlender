@@ -1,11 +1,18 @@
-var express = require('express');    //Express Web Server 
-var busboy = require('connect-busboy'); //middleware for form/file upload
+var HTTP_LISTENING_PORT = 30303;
+
+// System Utils
 var path = require('path');     //used for file path
-var fs = require('fs-extra');       //File System - for file manipulation
+
+// Express 4 HTTP Server
+var express = require('express');    //Express Web Server
 var app = express();
 
+// Socket.io Integration
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+
+// Socket handlers
+// TODO - Move to import
 io.on('connection', function(socket){
   console.log("Client connected!");
   console.log(socket.id);
@@ -14,45 +21,24 @@ io.on('connection', function(socket){
     console.log(socket.id);
   });
 });
-var basicRoutes = require(path.join(__dirname, 'Website/routes/basic'));
 
-app.use(busboy());
-app.use(express.static(path.join(__dirname, 'Website/public')));
-app.use(basicRoutes);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'Website/views/pages'));
-/* ========================================================== 
-Create a Route (/upload) to handle the Form submission 
-(handle POST requests to /upload)
-Express v4  Route definition
-============================================================ 
-app.route('/upload')
-    .post(function (req, res, next) {
+// Load/Init Routes
+var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io);
 
-        var fstream;
-        req.pipe(req.busboy);
-        req.busboy.on('file', function (fieldname, file, filename) {
-            console.log("Uploading: " + filename);
+// Setup upload manager, static path, and basic routes with view controller
+app.use(busboy()); // file upload
+app.use(express.static(path.join(__dirname, 'Website/public'))); // static path
+app.set('view engine', 'ejs'); // view engine
+app.set('views', path.join(__dirname, 'Website/views/pages')); // views path
+app.use(basicRoutes); // routes
 
-            //Path where image will be uploaded
-            fstream = fs.createWriteStream(__dirname + '/upload/' + filename);
-            file.pipe(fstream);
-            fstream.on('close', function () {
-                console.log("Upload Finished of " + filename); 
-                res.end(200);
-            });
-        });
-    });
-app.route("/")
-    .get(function(req, res) {
-    console.log("Rendering index for get request...");
-    res.render('index');
-});
-*/
+// Default error handler
 app.use(function (err, req, res, next) {
-  console.error(err.stack)
-  res.status(500).send('Something broke!')
-})
-server.listen(30303, function() {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+
+// Listen for requests
+server.listen(HTTP_LISTENING_PORT, function() {
     console.log('Listening on port %d', server.address().port);
 });
