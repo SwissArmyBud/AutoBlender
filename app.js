@@ -7,6 +7,9 @@ var path = require('path');     //used for file path
 var express = require('express');    //Express Web Server
 var app = express();
 
+// Upload Middleware
+var busboy = require('connect-busboy'); //middleware for form/file upload
+
 // Socket.io Integration
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -23,7 +26,7 @@ io.on('connection', function(socket){
 });
 
 // Load/Init Routes
-var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io);
+var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(busboy, io);
 
 // Setup upload manager, static path, and basic routes with view controller
 app.use(busboy()); // file upload

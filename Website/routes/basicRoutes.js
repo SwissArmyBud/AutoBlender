@@ -1,8 +1,7 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
-var busboy = require('connect-busboy'); //middleware for form/file upload
 
-module.exports = function(io){
+module.exports = function(busboy, io){
   router.get('/', function(req, res) {
     res.render('index');
   });
