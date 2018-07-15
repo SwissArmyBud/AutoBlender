@@ -4,14 +4,33 @@
 <script>
   var socket = io();
   socket.on('connect', function(){console.log("Connected to socketIO!");});
+  socket.on("uploadStatus", function(data){console.log(data);});
   //socket.on('event', function(data){});
   //socket.on('disconnect', function(){});
+
+  var file;
 
   $(function(){
     console.log("JQuery loaded!");
     $("#fileInput").on('change', (event)=>{
       console.log("Change in file!");
-      console.log(event);
+      file = event.target.files[0];
+      console.log(file);
+      $("#uploadButton").css("visibility", "visible");
+      $("#uploadButton").click(function(event){
+        console.log("Upload button clicked!");
+        var xhr = new XMLHttpRequest();
+        (xhr.upload || xhr).addEventListener('progress', function(e) {
+            var done = e.position || e.loaded
+            var total = e.totalSize || e.total;
+            console.log('xhr progress: ' + Math.round(done/total*100) + '%');
+        });
+        xhr.addEventListener('load', function(e) {
+            console.log('xhr upload complete', e, this.responseText);
+        });
+        xhr.open('post', '/upload', true);
+        xhr.send(file);
+      });
     })
   });
 </script>
