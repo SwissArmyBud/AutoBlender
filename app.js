@@ -26,7 +26,7 @@ io.on('connection', function(socket){
 });
 
 // Load/Init Routes
-var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(busboy, io);
+var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io);
 
 // Setup upload manager, static path, and basic routes with view controller
 app.use(busboy()); // file upload

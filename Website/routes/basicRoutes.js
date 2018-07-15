@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
 
-module.exports = function(busboy, io){
+module.exports = function(io){
   router.get('/', function(req, res) {
     res.render('index');
   });
@@ -14,8 +14,6 @@ module.exports = function(busboy, io){
     } catch (error){
       console.log("Bad upload ID!");
     }
-    // Send the request through BusBoy
-    req.pipe(req.busboy);
     // When BusBoy catches the file upload, stream it to the server upload area
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);
@@ -28,6 +26,8 @@ module.exports = function(busboy, io){
             res.end(200);
         });
     });
+    // Send the request through BusBoy
+    req.pipe(req.busboy);
   });
 
   router.get('/download', function(req, res) {
