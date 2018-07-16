@@ -8,7 +8,7 @@ socket.on('connect', function(){console.log("Connected to socketIO!");});
 var audioShellTag = "PyBlender> ";
 var audioConsole = audioShellTag;
 var updateAudioConsole = function(text){
-  text.replace("\n", "<br/>" + audioShellTag);
+  text.replace("\r", "<br/>" + audioShellTag);
   audioConsole += text + "<br/>" + audioShellTag;
   $("#fileProcessingProgress").html(audioConsole);
 }
