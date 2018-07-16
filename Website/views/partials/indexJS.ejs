@@ -5,6 +5,13 @@
 var socket = io();
 socket.on('connect', function(){console.log("Connected to socketIO!");});
 
+var fakeConsole = "";
+
+var updateConsole = function(text){
+  fakeConsole += "> " + text + "\n";
+  $("#fileProcessingProgress").text(fakeConsole);
+}
+
 socket.on("uploadStatus", function(data){
   switch(data.status){
     // UPLOAD DONE
@@ -22,6 +29,7 @@ socket.on("uploadStatus", function(data){
     // SOCKET ID PROVIDED
     case("::PY3"):{
       console.log(data.stdout);
+      updateConsole(fakeConsole);
       break;
     }
   }
@@ -66,7 +74,7 @@ $(function(){
           console.log("Finished upload!");
           console.log(data);
           $("#fileProcessingProgress").css("visibility", "visible");
-          $("#fileProcessingProgress").text("Processing...");
+          updateConsole("Processing started...");
         },
         cache: false,
         contentType: false,
