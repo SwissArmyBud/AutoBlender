@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
 
-module.exports = function(io){
+module.exports = function(io, applicationPath){
   router.get('/', function(req, res) {
     res.render('index');
   });
@@ -13,7 +13,7 @@ module.exports = function(io){
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);
         // Set path and init stream
-        fstream = fs.createWriteStream(__dirname + '/../upload/' + filename);
+        fstream = fs.createWriteStream(applicationPath + '/upload/' + filename);
         file.pipe(fstream);
         // Handle file upload finishing
         fstream.on('close', function () {
