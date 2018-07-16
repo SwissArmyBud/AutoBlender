@@ -5,7 +5,9 @@ import os, sys
 import time
 import logging
 
-def processMusic(audioPath, melBins, core):
+def processMusic(socketID, melBins, core):
+
+	mp3Path = ".\Website\uploads\\" + socketID + ".mp3"
 
 	# script setup and housekeeping for BEATS PROCESSING
 	#
@@ -18,7 +20,7 @@ def processMusic(audioPath, melBins, core):
 	
 	# load music into librosa
 	#
-	y, sr = librosa.load(audioPath, sr=sampleRate)
+	y, sr = librosa.load(mp3Path, sr=sampleRate)
 	sout("")
 	sout("**Loading Finished**")
 	sout("")
@@ -50,7 +52,7 @@ def processMusic(audioPath, melBins, core):
 		i = i / 100
 		frameArray.append(int(i*24))
 
-	np.savetxt(".\\pyBlender\\Output\\beat_frames.lfa", frameArray)
+	np.savetxt(".\Website\downloads\\" +  audioPath + ".bts", frameArray)
 
 	# confirm script execution
 	#
@@ -75,8 +77,8 @@ def processMusic(audioPath, melBins, core):
 
 	# setup librosa functions/processing
 	#
-	S = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=1,fmax=8000,hop_length = sampleHop)
-	librosaMel = librosa.logamplitude(S,ref_power=np.max)
+	S = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=1, fmax=8000, hop_length = sampleHop)
+	librosaMel = librosa.logamplitude(S, ref_power=np.max)
 
 	# sout out some information about what we're working with
 	samples = len(librosaMel[0])
@@ -112,7 +114,7 @@ def processMusic(audioPath, melBins, core):
 				tmpArry.append(int(tmpValue))
 		frameArray.append(tmpArry)
 
-	np.savetxt(".\\pyBlender\\Output\\mel_volume.lfa", frameArray)
+	np.savetxt(".\Website\downloads\\" +  audioPath + ".vol", frameArray)
 
 	# confirm script execution
 	#
@@ -128,7 +130,7 @@ def processMusic(audioPath, melBins, core):
 	samplesPerFrame = 2
 	frameRate = 24
 	sampleRate = 1000 * frameRate
-	sampleHop = (sampleRate/frameRate)/samplesPerFrame
+	sampleHop = (sampleRate/frameRate)/samplesPerFrame # equal to 1000? var it?
 	scaleFactor = 100/80
 	sout("")
 	sout("")
@@ -137,8 +139,8 @@ def processMusic(audioPath, melBins, core):
 	
 	# setup librosa functions/processing
 	#
-	Q = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=melBins,fmax=8000,hop_length = sampleHop)
-	librosaMel = librosa.logamplitude(Q,ref_power=np.max)
+	Q = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=melBins, fmax=8000, hop_length = sampleHop)
+	librosaMel = librosa.logamplitude(Q, ref_power=np.max)
 
 	# sout out some information about what we're working with
 	#
@@ -171,7 +173,9 @@ def processMusic(audioPath, melBins, core):
 			tmpValue = tmpValue / samplesPerFrame
 			tmpArry.append(int(tmpValue))
 		frameArray.append(tmpArry)
-	np.savetxt(".\\pyBlender\\Output\\n_bin_mel.lfa", frameArray)
+
+	np.savetxt(".\Website\downloads\\" +  audioPath + ".mel", frameArray)
+
 	# confirm script execution
 	#
 	sout("")
@@ -189,6 +193,7 @@ def processMusic(audioPath, melBins, core):
 
 	scenePath  =  ".\\pyBlender\\Scripts\\SceneSetup.txt"
 	corePath   =  ".\\pyBlender\\Scripts\\RenderingCores\\" + core + ".txt"
+	#TODO - Fix this missing file from project
 	scriptPath =  ".\\pyBlender\\Output\\RenderScript.txt"
 
 	sout("Scene will be rendered with core:")
@@ -198,7 +203,7 @@ def processMusic(audioPath, melBins, core):
 	with open(scriptPath, 'w') as outputFile:
 		for file in filenames:
 			with open(file) as inputFile:
-				outputFile.write(inputFile.read())
+				outputFile.write(inputFile.read().replace(socketID, "%SID%"))
 
 	# confirm script execution
 	#
@@ -228,10 +233,10 @@ def main(args):
 	sout("Args: " + ', '.join(args))
 	sout("CWD: " + os.getcwd())
 	sout("")
-	audioPath = (".\pyBlender\Output\userMusic.mp3")
+	socketID = args[3]
 	core = args[1]
 	melBins = args[2]
-	processMusic(audioPath, melBins, core)
+	processMusic(socketID, melBins, core)
 	sout("")
 	sout("")
 	sout("")
