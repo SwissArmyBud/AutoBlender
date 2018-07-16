@@ -1,4 +1,6 @@
 
+var fs = require('fs-extra');       //File System - for file manipulation
+
 module.exports = function(io, applicationPath){
   // TODO - Move to import
   io.on('connection', function(socket){
