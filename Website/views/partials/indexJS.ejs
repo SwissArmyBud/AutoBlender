@@ -23,36 +23,33 @@ $(function(){
       console.log("Upload button clicked!");
       $("#socketID").val(socket.id);
       console.log($("#uploadForm"));
-      $("#uploadForm").submit(function(e) {
-        e.preventDefault();
-        console.log("Submitting form!");
-        var formData = new FormData(this);
-        $.ajax({
-          xhr: function()
-          {
-            var xhr = new window.XMLHttpRequest();
-            //Upload progress
-            xhr.upload.addEventListener("progress", function(evt){
-              if (evt.lengthComputable) {
-                var percentComplete = evt.loaded / evt.total;
-                //Do something with upload progress
-                console.log(percentComplete);
-              }
-            }, false);
-            return xhr;
-          },
-          url: "/upload",
-          type: 'POST',
-          data: formData,
-          success: function (data) {
-            console.log("Finished upload!");
-            console.log(data);
-          },
-          cache: false,
-          contentType: false,
-          processData: false
-        }); // ajax process
-      }); // form submit
+      console.log("Submitting form!");
+      var formData = new FormData($("#uploadForm"));
+      $.ajax({
+        xhr: function()
+        {
+          var xhr = new window.XMLHttpRequest();
+          //Upload progress
+          xhr.upload.addEventListener("progress", function(evt){
+            if (evt.lengthComputable) {
+              var percentComplete = evt.loaded / evt.total;
+              //Do something with upload progress
+              console.log(percentComplete);
+            }
+          }, false);
+          return xhr;
+        },
+        url: "/upload",
+        type: 'POST',
+        data: formData,
+        success: function (data) {
+          console.log("Finished upload!");
+          console.log(data);
+        },
+        cache: false,
+        contentType: false,
+        processData: false
+      }); // ajax process
     }); // upload button click
 
   }); // on file input change
