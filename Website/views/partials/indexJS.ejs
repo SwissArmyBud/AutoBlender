@@ -22,8 +22,10 @@ $(function(){
       event.preventDefault();
       console.log("Upload button clicked!");
       $("#socketID").val(socket.id);
+      console.log($("#uploadForm"));
       $("#uploadForm").submit(function(e) {
         e.preventDefault();
+        console.log("Submitting form!");
         var formData = new FormData(this);
         $.ajax({
           xhr: function()
