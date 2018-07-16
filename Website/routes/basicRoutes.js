@@ -29,7 +29,7 @@ module.exports = function(io){
     });
     req.busboy.on('finish', function() {
       console.log('Done parsing form!');
-      res.end(200, "Success!");
+      res.end(200);
     });
     // Pipe into the handler chain
     req.pipe(req.busboy);
