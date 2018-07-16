@@ -17,7 +17,7 @@ def processMusic(socketID, melBins, core):
 	sout("")
 	sout("")
 	sout("Loading song into pyBlender.....")
-	
+
 	# load music into librosa
 	#
 	y, sr = librosa.load(mp3Path, sr=sampleRate)
@@ -25,7 +25,7 @@ def processMusic(socketID, melBins, core):
 	sout("**Loading Finished**")
 	sout("")
 	time.sleep(1)
-	
+
 	sout("")
 	sout("")
 	sout("Tempo/Beats Processing Engine")
@@ -92,7 +92,7 @@ def processMusic(socketID, melBins, core):
 	sout("Seconds: " + str(frames/frameRate))
 
 	# convert the bin based Mel spectrogram array to a time based array
-	#	
+	#
 	timeArray = []
 	for q in range(samples):
 		tmpArry = []
@@ -122,7 +122,7 @@ def processMusic(socketID, melBins, core):
 	sout("**Frame Array Construction Finished**")
 	sout("")
 	time.sleep(2)
-	
+
 	# script setup and housekeeping for MEL BINS PROCESSING
 	#
 	samples = 0
@@ -136,7 +136,7 @@ def processMusic(socketID, melBins, core):
 	sout("")
 	sout("Mel Spectrogram Processing Engine")
 	sout("--------------")
-	
+
 	# setup librosa functions/processing
 	#
 	Q = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=melBins, fmax=8000, hop_length = sampleHop)
@@ -152,7 +152,7 @@ def processMusic(socketID, melBins, core):
 	sout("Seconds: " + str(frames/frameRate))
 	sout("Mel Bins: " + str(melBins))
 	# convert the bin based Mel spectrogram array to a time based array
-	#	
+	#
 	timeArray = []
 	for q in range(samples):
 		tmpArry = []
@@ -215,18 +215,18 @@ def processMusic(socketID, melBins, core):
 
 
 def sout(input):
-	logging.info(input)
-	
-def main(args):
-	# script setup and housekeeping
-	#
-	logging.basicConfig(
-		filename = "Out.txt",
-		level = logging.DEBUG, 
-		format = '[webPy]: %(message)s'
-	)
+	print(input)
 
-	sout("autoBlender Python Web Service - *Started* @ %s" % time.ctime())
+def main(args):
+	# # script setup and housekeeping
+	# #
+	# logging.basicConfig(
+	# 	filename = "Out.txt",
+	# 	level = logging.DEBUG,
+	# 	format = '[webPy]: %(message)s'
+	# )
+
+	sout("autoBlender PyBlender Service - *Started* @ %s" % time.ctime())
 	sout("");
 	sout("");
 	sout("System:")
@@ -242,6 +242,6 @@ def main(args):
 	sout("")
 	sout("")
 	sout("")
-	
+
 if __name__ == '__main__':
     main(sys.argv)
