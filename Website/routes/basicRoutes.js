@@ -8,12 +8,7 @@ module.exports = function(io){
 
   router.post('/upload', function(req, res) {
     var fstream;
-    try{
-      console.log("Upload ID: " + req.get("uploadID"));
-      io.sockets.socket(req.get("uploadID")).emit("uploadStatus", {status: "::START::"});
-    } catch (error){
-      console.log("Bad upload ID!");
-    }
+    var clientID;
     // When BusBoy catches the file upload, stream it to the server upload area
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);
@@ -22,18 +17,19 @@ module.exports = function(io){
         file.pipe(fstream);
         // Handle file upload finishing
         fstream.on('close', function () {
-            io.sockets.socket(req.get("uploadID")).emit("uploadStatus", {status: "::START::"});
+            io.sockets.socket(clientID).emit("uploadStatus", {status: "::DONE::"});
             console.log("Upload Finished of " + filename);
             res.end(200);
         });
     });
     req.busboy.on('field', function(fieldname, val) {
-      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      if(fieldname == "socketID"){
+        io.sockets.socket(val).emit("uploadStatus", {status: "--> I SEE YOU <--"});
+      }
     });
     req.busboy.on('finish', function() {
       console.log('Done parsing form!');
-      res.writeHead(303, { Connection: 'close', Location: '/' });
-      res.end();
+      res.end(200, "Success!");
     });
     // Pipe into the handler chain
     req.pipe(req.busboy);
