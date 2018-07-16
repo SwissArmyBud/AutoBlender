@@ -16,23 +16,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 // Socket handlers
-// TODO - Move to import
-io.on('connection', function(socket){
-  console.log("Client connected!");
-  console.log(socket.id);
-  socket.on('disconnect', function(){
-    console.log("Client disconnected!");
-    console.log(socket.id);
-    fs.remove(__dirname + "/Website/uploads/" + socket.id + ".*", function(err){
-      if (err) return console.error(err);
-      console.log('Cleanup ok!');
-    });
-    fs.remove(__dirname + "/Website/downloads/" + socket.id + ".*", function(err){
-      if (err) return console.error(err);
-      console.log('Cleanup ok!');
-    });
-  });
-});
+require("./helpers/socketBinder")(io,  __dirname + "/Website");
 
 // Load/Init Routes
 var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io, __dirname + "/Website");
