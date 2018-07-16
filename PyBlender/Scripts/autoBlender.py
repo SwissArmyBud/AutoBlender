@@ -78,7 +78,7 @@ def processMusic(socketID, melBins, core):
 	# setup librosa functions/processing
 	#
 	S = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=1, fmax=8000, hop_length = sampleHop)
-	librosaMel = librosa.amplitude_to_db(S, ref_power=np.max)
+	librosaMel = librosa.amplitude_to_db(S, ref=np.max)
 
 	# sout out some information about what we're working with
 	samples = len(librosaMel[0])
@@ -140,7 +140,7 @@ def processMusic(socketID, melBins, core):
 	# setup librosa functions/processing
 	#
 	Q = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=melBins, fmax=8000, hop_length = sampleHop)
-	librosaMel = librosa.amplitude_to_db(Q, ref_power=np.max)
+	librosaMel = librosa.amplitude_to_db(Q, ref=np.max)
 
 	# sout out some information about what we're working with
 	#
