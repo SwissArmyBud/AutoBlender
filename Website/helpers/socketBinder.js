@@ -10,19 +10,19 @@ module.exports = function(io, applicationPath){
       console.log("Client disconnected!");
       console.log(socket.id);
       var uploadExtensions = [".mp3"];
-      for(var upExt in uploadExtensions){
-        fs.remove(applicationPath + "/Website/uploads/" + socket.id + upExt, function(err){
+      uploadExtensions.forEach(function(extension){
+        fs.remove(applicationPath + "/Website/uploads/" + socket.id + extension, function(err){
           if (err) return console.error(err);
           console.log(upExt + ' cleanup ok!');
         });
-      }
+      })
       var downloadExtensions = [".brs", ".bts", ".vol", ".mel"];
-      for(var dnExt in downloadExtensions){
-        fs.remove(applicationPath + "/Website/downloads/" + socket.id + dnExt, function(err){
+      downloadExtensions.forEach(function(extension){
+        fs.remove(applicationPath + "/Website/downloads/" + socket.id + extension, function(err){
           if (err) return console.error(err);
           console.log(dnExt + ' cleanup ok!');
         });
-      }
+      })
     });
   });
 };
