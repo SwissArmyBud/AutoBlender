@@ -22,7 +22,7 @@ $(function(){
       event.preventDefault();
       console.log("Upload button clicked!");
       $("#socketID").val(socket.id);
-      $("uploadForm").submit(function(e) {
+      $("#uploadForm").submit(function(e) {
         e.preventDefault();
         var formData = new FormData(this);
         $.ajax({
