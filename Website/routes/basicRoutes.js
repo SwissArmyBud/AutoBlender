@@ -1,7 +1,7 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
 var childProc = require('child_process');
-var makeChild = childProc.execFile;
+var makeChild = childProc.spawn;
 
 var ACCEPTED_FORMAT = ".mp3";
 
@@ -30,7 +30,7 @@ module.exports = function(io, applicationPath){
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
           // Enable line-level buffering (instead of file-level)
           // spawn("stdbuf", ["-oL", "-eL", "[PROGRAM]", "[ARG1]", "[ARG2]"]);
-          var pyTest = makeChild("python3", ["test.py"], options={
+          var pyTest = makeChild("python3", ["-u", "test.py"], options={
             cwd: applicationPath
           });
           pyTest.stdout.on('data', function(buffer){
