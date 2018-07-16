@@ -48,6 +48,8 @@ $(function(){
         success: function (data) {
           console.log("Finished upload!");
           console.log(data);
+          $("#fileProcessingProgress").css("visibility", "visible");
+          $("#fileProcessingProgress").text("Processing...");
         },
         cache: false,
         contentType: false,
