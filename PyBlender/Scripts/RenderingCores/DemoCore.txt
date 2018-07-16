@@ -3,7 +3,7 @@
 #
 
 for i in range(0,melBins):
-	
+
 	# housekeeping and setup for each object
 	#
 	(varA,varB,varC) = (0.0, 0.5, 1.0)
@@ -37,7 +37,7 @@ for i in range(0,melBins):
 
 	me.from_pydata(verts, [], faces)
 	me.update()
-	
+
 	# script the animation for each object
 	#
 	for frame in range (1,int(maxFrames/frameSkip)):
@@ -52,8 +52,8 @@ for i in range(0,melBins):
 			frameIsBeat = True
 			if (currentBeat != (len(beatFrames)-1)):
 				currentBeat = currentBeat + 1
-		  
-	  
+
+
 		# set the object scaling in multiples (SCALING PIPES)
 		#
 		scaleX = 1
@@ -84,30 +84,30 @@ for i in range(0,melBins):
 		angleY = 0
 		angleZ = ((beatFrames[currentBeat]) * (i-(melBins/2)))/10
 		angleX = 0
-		 
+
 
 
 		# manipulate the incoming data, perform animations, and set keyframes
 		#
-		
+
 		ob.scale = (scaleX, scaleY, scaleZ)
-		
+
 		ob.keyframe_insert(data_path="scale", index=-1, frame=frameNumber)
 
-		
+
 		colRed = colRed/100
 		colGreen = colGreen/100
 		colBlue = colBlue/100
 		mat.diffuse_color = (colRed,colGreen,colBlue)
-		
+
 		mat.keyframe_insert(data_path="diffuse_color", index=-1, frame=frameNumber)
 
-		
+
 		ob.location = (locX,locY,locZ)
-		
-		ob.keyframe_insert(data_path="location", index = -1, frame=frameNumber)  
- 
- 
+
+		ob.keyframe_insert(data_path="location", index = -1, frame=frameNumber)
+
+
 		angleX = (((angleX%360)-180)/180)*(pi)
 		angleY = (((angleY%360)-180)/180)*(pi)
 		angleZ = (((angleZ%360)-180)/180)*(pi)
@@ -118,15 +118,15 @@ for i in range(0,melBins):
 		objectRotation = Quaternion(axisX,angleX) * Quaternion(axisY,angleY) * Quaternion(axisZ,angleZ)
 		objectRotation.normalize()
 		ob.rotation_quaternion = objectRotation
-		
+
 		ob.keyframe_insert(data_path="rotation_quaternion", index = -1, frame=frameNumber)
 
-		
+
 		# print out some information about the rendering process
 		#
 		if(frameNumber%1000==0):
 			sout("Frame " + str(frameNumber) + " finished...")
-	
+
 	# print out some information about the rendering process and forget about the finished object
 	#
 	sout("Object " + str(i+1) + " finished, with " + str(maxFrames) + " frames keyed.")
@@ -135,28 +135,3 @@ for i in range(0,melBins):
 #
 # THIS IS THE END OF THE RENDERING CORE FOR BLENDER
 #
-
-#
-#	THE PORTION BELOW CLEANS UP THE BLEND FILE AFTER ANIMATION
-#	DO NOT EDIT ANYTHING BELOW THIS LEVEL WHEN DEVELOPING CORES
-#
-time.sleep(1)
-sout("")
-sout("")
-sout("    ***** ANIMATION FINISHED *****     ")
-sout("")
-sout("")
-time.sleep(3)
-bpy.ops.wm.save_as_mainfile(filepath=".\\pyBlender\\Output\\Final.blend")
-sout("")
-sout("")
-sout("    ***** FILE CREATION FINISHED *****     ")
-sout("")
-sout("")
-time.sleep(1)
-sout("")
-sout("")
-sout("    ***** FILES READY FOR DOWNLOAD *****     ")
-sout("")
-sout("")
-time.sleep(1)

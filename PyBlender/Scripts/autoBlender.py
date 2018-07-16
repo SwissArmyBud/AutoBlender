@@ -191,15 +191,16 @@ def processMusic(socketID, melBins, core):
 	sout("--------------")
 	sout("")
 
-	scenePath  =  ".\\pyBlender\\Scripts\\SceneSetup.txt"
-	corePath   =  ".\\pyBlender\\Scripts\\RenderingCores\\" + core + ".txt"
+	scenePath  =  ".\PyBlender\Scripts\SceneSetup.txt"
+	corePath   =  ".\PyBlender\Scripts\RenderingCores\\" + core + ".txt"
+	tailPath  =  ".\PyBlender\Scripts\SceneTail.txt"
 	#TODO - Fix this missing file from project
 	scriptPath =  ".\Website\downloads\\" + socketID + ".brs"
 
 	sout("Scene will be rendered with core:")
 	sout(corePath)
 
-	filenames = [scenePath, corePath]
+	filenames = [scenePath, corePath, tailPath]
 	with open(scriptPath, 'w') as outputFile:
 		for file in filenames:
 			with open(file) as inputFile:
