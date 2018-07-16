@@ -104,7 +104,7 @@ def processMusic(socketID, melBins, core):
 	# downconvert the time based array into an animation frame array
 	#
 	frameArray = []
-	for q in range(frames):
+	for q in range(int(frames)):
 		tmpArry = []
 		for r in range(1):
 			tempValue = 0
@@ -164,7 +164,7 @@ def processMusic(socketID, melBins, core):
 	# downconvert the time based array into an animation frame array
 	#
 	frameArray = []
-	for q in range(frames):
+	for q in range(int(frames)):
 		tmpArry = []
 		for r in range(melBins):
 			tempValue = 0
