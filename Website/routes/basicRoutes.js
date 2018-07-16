@@ -24,6 +24,7 @@ module.exports = function(io, applicationPath){
     req.busboy.on('field', function(fieldname, val) {
       if(fieldname == "socketID"){
         clientID = val;
+        console.log("Client ID provided: " + clientID);
         io.sockets.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
       }
     });
