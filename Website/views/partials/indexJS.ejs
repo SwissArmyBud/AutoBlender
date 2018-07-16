@@ -4,7 +4,21 @@
 <script>
 var socket = io();
 socket.on('connect', function(){console.log("Connected to socketIO!");});
-socket.on("uploadStatus", function(data){console.log(data);});
+
+socket.on("uploadStatus", function(data){
+  console.log("Incoming status update:");
+  console.log(data);
+  switch(data.status){
+    // UPLOAD DONE
+    case("::UPD"):{
+      break;
+    }
+    // SOCKET ID PROVIDED
+    case("::SID"):{
+      break;
+    }
+  }
+};
 //socket.on('event', function(data){});
 //socket.on('disconnect', function(){});
 

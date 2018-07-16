@@ -24,7 +24,7 @@ module.exports = function(io, applicationPath){
         // Async with callbacks:
         fs.move(basePath + filename, basePath + socketID + "ACCEPTED_FORMAT", function(err){
           if (err) return console.error(err);
-          io.sockets.to(socketID).emit("uploadStatus", {status: "::DONE::"});
+          io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
         });
       });
@@ -33,7 +33,7 @@ module.exports = function(io, applicationPath){
       if(fieldname == "socketID"){
         socketID = val;
         console.log("Socket ID provided: " + socketID);
-        io.sockets.to(socketID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
+        io.sockets.to(socketID).emit("uploadStatus", {status: "::SID"});
       }
     });
     req.busboy.on('finish', function() {
