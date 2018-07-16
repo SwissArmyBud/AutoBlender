@@ -1,6 +1,7 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
-var spawn = require('child_process');
+var childProc = require('child_process');
+var spawn = childProc.spawn;
 
 var ACCEPTED_FORMAT = ".mp3";
 
