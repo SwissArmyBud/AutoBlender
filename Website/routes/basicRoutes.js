@@ -26,8 +26,7 @@ module.exports = function(io, applicationPath){
       if(fieldname == "socketID"){
         clientID = val;
         console.log("Client ID provided: " + clientID);
-        var namespace = io.of(clientID);
-        namespace.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
+        io.sockets.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
       }
     });
     req.busboy.on('finish', function() {
