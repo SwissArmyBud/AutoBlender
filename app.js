@@ -16,7 +16,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 // Socket handlers
-require("./helpers/socketBinder")(io,  __dirname + "/Website");
+require("/Application/helpers/socketBinder")(io,  __dirname + "/Website");
 
 // Load/Init Routes
 var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io, __dirname + "/Website");
