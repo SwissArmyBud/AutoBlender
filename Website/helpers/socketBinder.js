@@ -13,14 +13,14 @@ module.exports = function(io, applicationPath){
       uploadExtensions.forEach(function(extension){
         fs.remove(applicationPath + "/Website/uploads/" + socket.id + extension, function(err){
           if (err) return console.error(err);
-          console.log(upExt + ' cleanup ok!');
+          console.log(extension + ' cleanup ok!');
         });
       })
       var downloadExtensions = [".brs", ".bts", ".vol", ".mel"];
       downloadExtensions.forEach(function(extension){
         fs.remove(applicationPath + "/Website/downloads/" + socket.id + extension, function(err){
           if (err) return console.error(err);
-          console.log(dnExt + ' cleanup ok!');
+          console.log(extension + ' cleanup ok!');
         });
       })
     });
