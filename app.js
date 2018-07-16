@@ -2,6 +2,7 @@ var HTTP_LISTENING_PORT = 30303;
 
 // System Utils
 var path = require('path');     //used for file path
+var fs = require('fs-extra');       //File System - for file manipulation
 
 // Express 4 HTTP Server
 var express = require('express');    //Express Web Server
