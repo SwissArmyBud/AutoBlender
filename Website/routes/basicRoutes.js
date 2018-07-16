@@ -1,5 +1,6 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
+var spawn = require('child_process');
 
 var ACCEPTED_FORMAT = ".mp3";
 
@@ -15,7 +16,7 @@ module.exports = function(io, applicationPath){
     req.busboy.on('file', function (fieldname, file, filename) {
       console.log("Uploading: " + filename);
       // Set path and init stream
-      var basePath = applicationPath + '/uploads/';
+      var basePath = applicationPath + '/Website/uploads/';
       fstream = fs.createWriteStream(basePath + filename);
       file.pipe(fstream);
       // Handle file upload finishing
@@ -26,6 +27,20 @@ module.exports = function(io, applicationPath){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
+          var pyTest = spawn('python3', ['test.py'], cwd=applicationPath);
+          pyTest.stdout.on('data', function(data){
+            console.log('stdout:');
+            console.log(data);
+          });
+
+          pyTest.stderr.on('data',  function(data){
+            console.log('stderr:');
+            console.log(data);
+          });
+
+          pyTest.on('close',  function(code){
+            console.log('child process exited with code:' + int(code));
+          });
         });
       });
     });

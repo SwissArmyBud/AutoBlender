@@ -16,10 +16,10 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
 // Socket handlers
-require(path.join(__dirname, "/Application/helpers/socketBinder"))(io,  __dirname + "/Website");
+require(path.join(__dirname, "Application/helpers/socketBinder"))(io,  __dirname);
 
 // Load/Init Routes
-var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io, __dirname + "/Website");
+var basicRoutes = require(path.join(__dirname, 'Website/routes/basicRoutes'))(io, __dirname);
 
 // Setup upload manager, static path, and basic routes with view controller
 app.use(busboy()); // file upload
