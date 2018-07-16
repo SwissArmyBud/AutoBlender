@@ -31,14 +31,14 @@ module.exports = function(io, applicationPath){
           var pyTest = spawn('python3', ['test.py'], options={
             cwd: applicationPath
           });
-          pyTest.stdout.on('data', function(data){
+          pyTest.stdout.on('data', function(buffer){
             console.log('stdout:');
-            console.log(data);
+            console.log(buffer.toString());
           });
 
-          pyTest.stderr.on('data',  function(data){
+          pyTest.stderr.on('data',  function(buffer){
             console.log('stderr:');
-            console.log(data);
+            console.log(buffer.toString());
           });
 
           pyTest.on('close',  function(code){
