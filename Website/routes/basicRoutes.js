@@ -28,12 +28,12 @@ module.exports = function(io, applicationPath){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
-          // Enable line-level buffering (instead of file-level)
-          // spawn("stdbuf", ["-oL", "-eL", "[PROGRAM]", "[ARG1]", "[ARG2]"]);
-          var pyTest = makeChild("python3", ["-u", "test.py"], options={
+          // Spawn an UNBUFFERED (-u) python3 child
+          var pyBlender = makeChild("python3", ["-u", "./PyBlender/Scripts/autoBlender.py", "VUmeter", 8, socketID], options={
             cwd: applicationPath
           });
-          pyTest.stdout.on('data', function(buffer){
+          // Grab output and send back to client
+          pyBlender.stdout.on('data', function(buffer){
             var bufferString = buffer.toString();
             io.sockets.to(socketID).emit("uploadStatus", {
               status: "::PY3",
@@ -42,14 +42,22 @@ module.exports = function(io, applicationPath){
             console.log('stdout:');
             console.log(bufferString);
           });
-
-          pyTest.stderr.on('data',  function(buffer){
+          // Error to cosole for debug
+          pyBlender.stderr.on('data',  function(buffer){
             console.log('stderr:');
             console.log(buffer.toString());
           });
-
-          pyTest.on('close',  function(code){
+          // Spin up next child when processing done
+          pyBlender.on('close',  function(code){
             console.log('child process exited with code:' + parseInt(code));
+            if(code == 0){
+              io.sockets.to(socketID).emit("uploadStatus", {status: "::PYD"});
+              // TODO - Send an error across if there is an issue
+              io.sockets.to(socketID).emit("uploadStatus", {
+                status: "::BRE",
+                stdout: "test bufferString"
+              });
+            }
           });
         });
       });

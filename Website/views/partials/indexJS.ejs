@@ -5,31 +5,54 @@
 var socket = io();
 socket.on('connect', function(){console.log("Connected to socketIO!");});
 
-var fakeConsole = "";
+var audioConsole = "";
+var updateAudioConsole = function(text){
+  audioConsole += "PyBlender> " + text + "<br/>";
+  $("#fileProcessingProgress").html(audioConsole);
+}
 
-var updateConsole = function(text){
-  fakeConsole += "> " + text + "<br/>";
-  $("#fileProcessingProgress").html(fakeConsole);
+var blenderConsole = "";
+var updateBlenderConsole = function(text){
+  blenderConsole += "BlenderEngine> " + text + "<br/>";
+  $("#blenderRenderingProgress").html(blenderConsole);
 }
 
 socket.on("uploadStatus", function(data){
   switch(data.status){
-    // UPLOAD DONE
-    case("::UPD"):{
-      console.log("Incoming status update:");
-      console.log(data);
-      break;
-    }
     // SOCKET ID PROVIDED
     case("::SID"):{
       console.log("Incoming status update:");
       console.log(data);
       break;
     }
-    // SOCKET ID PROVIDED
+    // UPLOAD DONE
+    case("::UPD"):{
+      console.log("Incoming status update:");
+      console.log(data);
+      $("#fileProcessingProgress").css("visibility", "visible");
+      updateAudioConsole("Processing started...");
+      break;
+    }
+    // PYTHON3 CHILD STATUS
     case("::PY3"):{
       console.log(data.stdout);
-      updateConsole(data.stdout);
+      updateAudioConsole(data.stdout);
+      $("#fileProcessingProgress").scrollTop = $("#fileProcessingProgress").scrollHeight;
+      break;
+    }
+    // PYTHON3 CHILD DONE
+    case("::PYD"):{
+      console.log("Incoming status update:");
+      console.log(data);
+      $("#blenderRenderingProgress").css("visibility", "visible");
+      updateBlenderConsole("Rendering started...");
+      break;
+    }
+    // BLENDER RENDERING ENGINE
+    case("::BRE"):{
+      console.log(data.stdout);
+      updateBlenderConsole(data.stdout);
+      $("#blenderRenderingProgress").scrollTop = $("#blenderRenderingProgress").scrollHeight;
       break;
     }
   }
@@ -73,8 +96,6 @@ $(function(){
         success: function (data) {
           console.log("Finished upload!");
           console.log(data);
-          $("#fileProcessingProgress").css("visibility", "visible");
-          updateConsole("Processing started...");
         },
         cache: false,
         contentType: false,
