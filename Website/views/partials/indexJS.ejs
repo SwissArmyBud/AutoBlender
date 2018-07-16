@@ -6,15 +6,22 @@ var socket = io();
 socket.on('connect', function(){console.log("Connected to socketIO!");});
 
 socket.on("uploadStatus", function(data){
-  console.log("Incoming status update:");
-  console.log(data);
   switch(data.status){
     // UPLOAD DONE
     case("::UPD"):{
+      console.log("Incoming status update:");
+      console.log(data);
       break;
     }
     // SOCKET ID PROVIDED
     case("::SID"):{
+      console.log("Incoming status update:");
+      console.log(data);
+      break;
+    }
+    // SOCKET ID PROVIDED
+    case("::PY3"):{
+      console.log(data.stdout);
       break;
     }
   }

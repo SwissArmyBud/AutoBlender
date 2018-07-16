@@ -32,8 +32,13 @@ module.exports = function(io, applicationPath){
             cwd: applicationPath
           });
           pyTest.stdout.on('data', function(buffer){
+            var bufferString = buffer.toString();
+            io.sockets.to(socketID).emit("uploadStatus", {
+              status: "::PY3",
+              stdout: bufferString
+            });
             console.log('stdout:');
-            console.log(buffer.toString());
+            console.log(bufferString);
           });
 
           pyTest.stderr.on('data',  function(buffer){
