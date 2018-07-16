@@ -9,15 +9,15 @@ var audioShellTag = "PyBlender> ";
 var audioConsole = audioShellTag;
 var updateAudioConsole = function(text){
   text.replace("\n", "<br/>" + audioShellTag);
-  audioConsole += audioShellTag + text;
+  audioConsole += text + "<br/>" + audioShellTag;
   $("#fileProcessingProgress").html(audioConsole);
 }
 
 var renderShellTag = "BlenderEngine> ";
 var blenderConsole = renderShellTag;
 var updateBlenderConsole = function(text){
-  text.replace("\n", "<br/>" + renderShellTag);
-  blenderConsole += text;
+  text.replace("\r", "<br/>" + renderShellTag);
+  blenderConsole += text + "<br/>" + renderShellTag;
   $("#blenderRenderingProgress").html(blenderConsole);
 }
 
@@ -66,48 +66,47 @@ socket.on("uploadStatus", function(data){
 
 $(function(){
   console.log("JQuery loaded!");
-  $("#fileInput").on('change', (event)=>{
+  $("#fileInput").on('change', function(event){
     console.log("Change in file!");
     $("#uploadButton").css("visibility", "visible");
-
-    $("#uploadButton").click(function(event){
-      event.preventDefault();
-      console.log("Upload button clicked!");
-      $("#socketID").val(socket.id);
-      console.log($("#uploadForm"));
-      console.log("Submitting form!");
-      var formData = new FormData($("#uploadForm")[0]);
-      $("#fileUploadProgress").css("visibility", "visible");
-      $("#fileUploadProgress").append($("<div/>").attr("id", "progressText"));
-      $.ajax({
-        xhr: function()
-        {
-          var xhr = new window.XMLHttpRequest();
-          //Upload progress
-          xhr.upload.addEventListener("progress", function(evt){
-            if (evt.lengthComputable) {
-              var percentComplete = 100 * (evt.loaded / evt.total);
-              $("#progressText").text(percentComplete);
-              //Do something with upload progress
-              console.log(percentComplete);
-            }
-          }, false);
-          return xhr;
-        },
-        url: "/upload",
-        type: 'POST',
-        data: formData,
-        success: function (data) {
-          console.log("Finished upload!");
-          console.log(data);
-        },
-        cache: false,
-        contentType: false,
-        processData: false
-      }); // ajax process
-    }); // upload button click
-
   }); // on file input change
+  $("#uploadButton").click(function(event){
+    event.preventDefault();
+    console.log("Upload button clicked!");
+    $("#socketID").val(socket.id);
+    console.log($("#uploadForm"));
+    console.log("Submitting form!");
+    var formData = new FormData($("#uploadForm")[0]);
+    $("#fileUploadProgress").css("visibility", "visible");
+    $("#fileUploadProgress").append($("<div/>").attr("id", "progressText"));
+    $.ajax({
+      xhr: function()
+      {
+        var xhr = new window.XMLHttpRequest();
+        //Upload progress
+        xhr.upload.addEventListener("progress", function(evt){
+          if (evt.lengthComputable) {
+            var percentComplete = 100 * (evt.loaded / evt.total);
+            $("#progressText").text(percentComplete);
+            //Do something with upload progress
+            console.log(percentComplete);
+          }
+        }, false);
+        return xhr;
+      },
+      url: "/upload",
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+        console.log("Finished upload!");
+        console.log(data);
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+    }); // ajax process
+  }); // upload button click
+
 
 }); // jQuery ready
 </script>
