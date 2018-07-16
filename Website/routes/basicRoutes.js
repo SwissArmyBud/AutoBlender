@@ -22,7 +22,7 @@ module.exports = function(io, applicationPath){
         });
     });
     req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
-      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+      console.log('Field [' + fieldname + ']: value: ' + val);
       if(fieldname == "socketID"){
         clientID = val;
         console.log("Client ID provided: " + clientID);
