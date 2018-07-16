@@ -28,7 +28,9 @@ module.exports = function(io, applicationPath){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
-          var pyTest = spawn('python3', ['test.py'], options={
+          // Enable line-level buffering (instead of file-level)
+          // spawn("stdbuf", ["-oL", "-eL", "[PROGRAM]", "[ARG1]", "[ARG2]"]);
+          var pyTest = spawn("stdbuf", ["-oL", "-eL", "python3", "test.py"], options={
             cwd: applicationPath
           });
           pyTest.stdout.on('data', function(buffer){
