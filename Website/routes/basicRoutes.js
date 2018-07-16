@@ -31,7 +31,8 @@ module.exports = function(io, applicationPath){
           // Enable line-level buffering (instead of file-level)
           // spawn("stdbuf", ["-oL", "-eL", "[PROGRAM]", "[ARG1]", "[ARG2]"]);
           var pyTest = spawn("stdbuf", ["-oL", "-eL", "python3", "test.py"], options={
-            cwd: applicationPath
+            cwd: applicationPath,
+            stdio: "pipe"
           });
           pyTest.stdout.on('data', function(buffer){
             var bufferString = buffer.toString();
@@ -40,15 +41,6 @@ module.exports = function(io, applicationPath){
               stdout: bufferString
             });
             console.log('stdout:');
-            console.log(bufferString);
-          });
-          pyTest.stdout.on('readable', function(buffer){
-            var bufferString = buffer.toString();
-            io.sockets.to(socketID).emit("uploadStatus", {
-              status: "::LOG",
-              data: bufferString
-            });
-            console.log('log:');
             console.log(bufferString);
           });
 
