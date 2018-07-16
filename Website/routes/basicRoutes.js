@@ -42,7 +42,7 @@ module.exports = function(io, applicationPath){
           });
 
           pyTest.on('close',  function(code){
-            console.log('child process exited with code:' + int(code));
+            console.log('child process exited with code:' + parseInt(code));
           });
         });
       });
