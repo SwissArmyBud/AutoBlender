@@ -7,7 +7,7 @@ import logging
 
 def processMusic(socketID, melBins, core):
 
-	mp3Path = ".\Website\uploads\\" + socketID + ".mp3"
+	mp3Path = ".\\Website\\uploads\\" + socketID + ".mp3"
 
 	# script setup and housekeeping for BEATS PROCESSING
 	#
@@ -52,7 +52,7 @@ def processMusic(socketID, melBins, core):
 		i = i / 100
 		frameArray.append(int(i*24))
 
-	np.savetxt(".\Website\downloads\\" +  audioPath + ".bts", frameArray)
+	np.savetxt(".\\Website\\downloads\\" +  audioPath + ".bts", frameArray)
 
 	# confirm script execution
 	#
@@ -114,7 +114,7 @@ def processMusic(socketID, melBins, core):
 				tmpArry.append(int(tmpValue))
 		frameArray.append(tmpArry)
 
-	np.savetxt(".\Website\downloads\\" +  audioPath + ".vol", frameArray)
+	np.savetxt(".\\Website\\downloads\\" +  audioPath + ".vol", frameArray)
 
 	# confirm script execution
 	#
@@ -174,7 +174,7 @@ def processMusic(socketID, melBins, core):
 			tmpArry.append(int(tmpValue))
 		frameArray.append(tmpArry)
 
-	np.savetxt(".\Website\downloads\\" +  audioPath + ".mel", frameArray)
+	np.savetxt(".\\Website\\downloads\\" +  audioPath + ".mel", frameArray)
 
 	# confirm script execution
 	#
@@ -191,11 +191,11 @@ def processMusic(socketID, melBins, core):
 	sout("--------------")
 	sout("")
 
-	scenePath  =  ".\PyBlender\Scripts\SceneSetup.txt"
-	corePath   =  ".\PyBlender\Scripts\RenderingCores\\" + core + ".txt"
-	tailPath  =  ".\PyBlender\Scripts\SceneTail.txt"
+	scenePath  =  ".\\PyBlender\\Scripts\\SceneSetup.txt"
+	corePath   =  ".\\PyBlender\\Scripts\\RenderingCores\\" + core + ".txt"
+	tailPath  =  ".\\PyBlender\\Scripts\\SceneTail.txt"
 	#TODO - Fix this missing file from project
-	scriptPath =  ".\Website\downloads\\" + socketID + ".brs"
+	scriptPath =  ".\\Website\\downloads\\" + socketID + ".brs"
 
 	sout("Scene will be rendered with core:")
 	sout(corePath)
