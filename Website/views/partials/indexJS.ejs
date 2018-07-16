@@ -8,8 +8,8 @@ socket.on('connect', function(){console.log("Connected to socketIO!");});
 var fakeConsole = "";
 
 var updateConsole = function(text){
-  fakeConsole += "> " + text + "\n";
-  $("#fileProcessingProgress").text(fakeConsole);
+  fakeConsole += "> " + text + "<br/>";
+  $("#fileProcessingProgress").html(fakeConsole);
 }
 
 socket.on("uploadStatus", function(data){
@@ -29,7 +29,7 @@ socket.on("uploadStatus", function(data){
     // SOCKET ID PROVIDED
     case("::PY3"):{
       console.log(data.stdout);
-      updateConsole(fakeConsole);
+      updateConsole(data.stdout);
       break;
     }
   }
