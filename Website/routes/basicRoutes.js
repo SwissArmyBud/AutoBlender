@@ -1,6 +1,8 @@
 var router = require('express').Router();
 var fs = require('fs-extra');       //File System - for file manipulation
 
+var ACCEPTED_FORMAT = ".mp3";
+
 module.exports = function(io, applicationPath){
   router.get('/', function(req, res) {
     res.render('index');
@@ -20,10 +22,10 @@ module.exports = function(io, applicationPath){
       fstream.on('close', function () {
         console.log("Upload Finished of " + filename);
         // Async with callbacks:
-        fs.move(basePath + filename, basePath + socketID + ".mp3", function(err){
+        fs.move(basePath + filename, basePath + socketID + "ACCEPTED_FORMAT", function(err){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::DONE::"});
-          console.log("Renamed " + filename + " to " + socketID);
+          console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
         });
       });
     });
