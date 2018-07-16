@@ -28,9 +28,12 @@ module.exports = function(io, applicationPath){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
-          // Spawn an UNBUFFERED (-u) python3 child
-          var pyBlender = makeChild("python3", ["-u", "./PyBlender/Scripts/autoBlender.py", "VUmeter", 8, socketID], options={
-            cwd: applicationPath
+          // Spawn an UNBUFFERED Python3 child for audio analysis
+          var unbufferedPythonENV = process.env;
+          unbufferedPythonENV.PYTHONUNBUFFERED = "on";
+          var pyBlender = makeChild("python3", ["./PyBlender/Scripts/autoBlender.py", "VUmeter", 8, socketID], options={
+            cwd: applicationPath,
+            env: unbufferedPythonENV
           });
           // Grab output and send back to client
           pyBlender.stdout.on('data', function(buffer){
