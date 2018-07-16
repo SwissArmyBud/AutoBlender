@@ -18,11 +18,12 @@ module.exports = function(io, applicationPath){
       file.pipe(fstream);
       // Handle file upload finishing
       fstream.on('close', function () {
+        console.log("Upload Finished of " + filename);
         // Async with callbacks:
         fs.move(basePath + filename, basePath + socketID + ".mp3", function(err){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::DONE::"});
-          console.log("Upload Finished of " + filename);
+          console.log("Renamed " + filename + " to " + socketID);
         });
       });
     });
@@ -38,7 +39,7 @@ module.exports = function(io, applicationPath){
       res.status(200).send("Finished file upload!");
       res.end();
     });
-    // Pipe into the handler chain
+    // Peer into the darkness
     req.pipe(req.busboy);
   });
 
