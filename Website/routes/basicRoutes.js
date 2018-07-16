@@ -19,7 +19,7 @@ module.exports = function(io, applicationPath){
       // Handle file upload finishing
       fstream.on('close', function () {
         // Async with callbacks:
-        fs.copy(basePath + filename, basePath + socketID + ".mp3", function(err){
+        fs.move(basePath + filename, basePath + socketID + ".mp3", function(err){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::DONE::"});
           console.log("Upload Finished of " + filename);

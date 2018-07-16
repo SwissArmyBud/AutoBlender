@@ -22,6 +22,10 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log("Client disconnected!");
     console.log(socket.id);
+    fs.remove(__dirname + "/Website/{uploads,downloads}/" + socketID + ".mp3", err => {
+      if (err) return console.error(err);
+      console.log('Cleanup ok!');
+    });
   });
 });
 
