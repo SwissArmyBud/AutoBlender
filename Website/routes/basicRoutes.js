@@ -18,7 +18,7 @@ module.exports = function(io){
     req.busboy.on('file', function (fieldname, file, filename) {
         console.log("Uploading: " + filename);
         // Set path and init stream
-        fstream = fs.createWriteStream(__dirname + '../upload/' + filename);
+        fstream = fs.createWriteStream(__dirname + '/../upload/' + filename);
         file.pipe(fstream);
         // Handle file upload finishing
         fstream.on('close', function () {
