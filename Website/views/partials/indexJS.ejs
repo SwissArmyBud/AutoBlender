@@ -25,6 +25,8 @@ $(function(){
       console.log($("#uploadForm"));
       console.log("Submitting form!");
       var formData = new FormData($("#uploadForm")[0]);
+      $("#fileUploadProgress").css("visibility", "visible");
+      $("#fileUploadProgress").append($("<div/>").attr("id", "progressText"));
       $.ajax({
         xhr: function()
         {
@@ -33,6 +35,7 @@ $(function(){
           xhr.upload.addEventListener("progress", function(evt){
             if (evt.lengthComputable) {
               var percentComplete = 100 * (evt.loaded / evt.total);
+              $("#progressText").text(percentComplete);
               //Do something with upload progress
               console.log(percentComplete);
             }
