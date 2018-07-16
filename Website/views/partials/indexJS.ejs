@@ -37,7 +37,7 @@ socket.on("uploadStatus", function(data){
     case("::PY3"):{
       console.log(data.stdout);
       updateAudioConsole(data.stdout);
-      $("#fileProcessingProgress").scrollTop = $("#fileProcessingProgress").scrollHeight;
+      $("#fileProcessingProgress")[0].scrollTop = $("#fileProcessingProgress")[0].scrollHeight;
       break;
     }
     // PYTHON3 CHILD DONE
@@ -52,7 +52,7 @@ socket.on("uploadStatus", function(data){
     case("::BRE"):{
       console.log(data.stdout);
       updateBlenderConsole(data.stdout);
-      $("#blenderRenderingProgress").scrollTop = $("#blenderRenderingProgress").scrollHeight;
+      $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
       break;
     }
   }
