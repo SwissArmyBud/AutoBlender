@@ -24,7 +24,7 @@ module.exports = function(io, applicationPath){
       fstream.on('close', function () {
         console.log("Upload Finished of " + filename);
         // Async with callbacks:
-        fs.move(basePath + filename, basePath + socketID + "ACCEPTED_FORMAT", function(err){
+        fs.move(basePath + filename, basePath + socketID + ACCEPTED_FORMAT, function(err){
           if (err) return console.error(err);
           io.sockets.to(socketID).emit("uploadStatus", {status: "::UPD"});
           console.log("Renamed " + filename + " to " + socketID + ACCEPTED_FORMAT);
