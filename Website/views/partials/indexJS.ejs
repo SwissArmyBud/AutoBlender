@@ -5,15 +5,19 @@
 var socket = io();
 socket.on('connect', function(){console.log("Connected to socketIO!");});
 
-var audioConsole = "";
+var audioShellTag = "PyBlender> ";
+var audioConsole = audioShellTag;
 var updateAudioConsole = function(text){
-  audioConsole += "PyBlender> " + text + "<br/>";
+  text.replace("\n", "<br/>" + audioShellTag);
+  audioConsole += audioShellTag + text;
   $("#fileProcessingProgress").html(audioConsole);
 }
 
-var blenderConsole = "";
+var renderShellTag = "BlenderEngine> ";
+var blenderConsole = renderShellTag;
 var updateBlenderConsole = function(text){
-  blenderConsole += "BlenderEngine> " + text + "<br/>";
+  text.replace("\n", "<br/>" + renderShellTag);
+  blenderConsole += text;
   $("#blenderRenderingProgress").html(blenderConsole);
 }
 
