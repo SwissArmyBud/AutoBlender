@@ -17,13 +17,14 @@ module.exports = function(io, applicationPath){
         file.pipe(fstream);
         // Handle file upload finishing
         fstream.on('close', function () {
-            io.sockets.socket(clientID).emit("uploadStatus", {status: "::DONE::"});
+            io.sockets.to(clientID).emit("uploadStatus", {status: "::DONE::"});
             console.log("Upload Finished of " + filename);
         });
     });
     req.busboy.on('field', function(fieldname, val) {
       if(fieldname == "socketID"){
-        io.sockets.socket(val).emit("uploadStatus", {status: "--> I SEE YOU <--"});
+        clientID = val;
+        io.sockets.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
       }
     });
     req.busboy.on('finish', function() {
