@@ -21,11 +21,13 @@ module.exports = function(io, applicationPath){
             console.log("Upload Finished of " + filename);
         });
     });
-    req.busboy.on('field', function(fieldname, val) {
+    busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
       if(fieldname == "socketID"){
         clientID = val;
         console.log("Client ID provided: " + clientID);
-        io.sockets.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
+        var namespace = io.of(clientID);
+        namespace.to(clientID).emit("uploadStatus", {status: "--> I SEE YOU <--"});
       }
     });
     req.busboy.on('finish', function() {
