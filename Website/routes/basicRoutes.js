@@ -21,7 +21,7 @@ module.exports = function(io, applicationPath){
             console.log("Upload Finished of " + filename);
         });
     });
-    req.busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+    req.busboy.on('field', function(fieldname, val) {
       console.log('Field [' + fieldname + ']: value: ' + val);
       if(fieldname == "socketID"){
         clientID = val;
