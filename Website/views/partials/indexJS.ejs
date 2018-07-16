@@ -24,7 +24,7 @@ $(function(){
       $("#socketID").val(socket.id);
       console.log($("#uploadForm"));
       console.log("Submitting form!");
-      var formData = new FormData($("#uploadForm"));
+      var formData = new FormData($("#uploadForm")[0]);
       $.ajax({
         xhr: function()
         {
