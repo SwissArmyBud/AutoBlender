@@ -22,12 +22,21 @@ module.exports = function(io){
         file.pipe(fstream);
         // Handle file upload finishing
         fstream.on('close', function () {
+            io.sockets.socket(req.get("uploadID")).emit("uploadStatus", {status: "::START::"});
             console.log("Upload Finished of " + filename);
             res.end(200);
         });
     });
-    // Send the request through BusBoy
-    req.pipe(req.busboy);
+    req.busboy.on('field', function(fieldname, val) {
+      console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+    });
+    req.busboy.on('finish', function() {
+      console.log('Done parsing form!');
+      res.writeHead(303, { Connection: 'close', Location: '/' });
+      res.end();
+    });
+    // Pipe into the handler chain
+    req.pipe(busboy);
   });
 
   router.get('/download', function(req, res) {
