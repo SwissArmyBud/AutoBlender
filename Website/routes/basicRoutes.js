@@ -42,6 +42,15 @@ module.exports = function(io, applicationPath){
             console.log('stdout:');
             console.log(bufferString);
           });
+          pyTest.stdout.on('readable', function(buffer){
+            var bufferString = buffer.toString();
+            io.sockets.to(socketID).emit("uploadStatus", {
+              status: "::LOG",
+              data: bufferString
+            });
+            console.log('log:');
+            console.log(bufferString);
+          });
 
           pyTest.stderr.on('data',  function(buffer){
             console.log('stderr:');
