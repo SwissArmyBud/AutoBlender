@@ -19,7 +19,6 @@ module.exports = function(io){
         fstream.on('close', function () {
             io.sockets.socket(clientID).emit("uploadStatus", {status: "::DONE::"});
             console.log("Upload Finished of " + filename);
-            res.send(200);
         });
     });
     req.busboy.on('field', function(fieldname, val) {
@@ -29,7 +28,8 @@ module.exports = function(io){
     });
     req.busboy.on('finish', function() {
       console.log('Done parsing form!');
-      res.send(200);
+      res.status(200).send("Finished file upload!");
+      res.end();
     });
     // Pipe into the handler chain
     req.pipe(req.busboy);
