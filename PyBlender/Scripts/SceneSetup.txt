@@ -50,7 +50,7 @@ volumeFile.close()
 # open and load mel information
 #
 MelData = []
-melFile = open('./Websit/downloads/' + socketID + '.mel','r')
+melFile = open('./Website/downloads/' + socketID + '.mel','r')
 for line in melFile.readlines():
     MelData.append(line.split())
 melFile.close()
