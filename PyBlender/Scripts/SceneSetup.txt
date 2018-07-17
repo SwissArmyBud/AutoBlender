@@ -1,8 +1,14 @@
 import bpy, math, os, sys
+from bpy import context
 from math import sin, cos, pi
 from mathutils import Vector, Quaternion
 import time
 
+sout("   **TRYING TO ADD MUSIC**")
+scene = context.scene
+if not scene.sequence_editor:
+	scene.sequence_editor_create()
+bpy.ops.sequencer.sound_strip_add(filepath="./Website/uploads/" + socketID + ".mp3", frame_start=0)
 time.sleep(2)
 
 socketID = sys.argv[6]
@@ -26,7 +32,7 @@ sout("")
 beatData = []
 beatFile = open('./Website/downloads/' + socketID + '.bts','r')
 for line in beatFile.readlines():
-    beatData.extend(line.split())
+		beatData.extend(line.split())
 beatFile.close()
 
 beatFrames = []
