@@ -87,10 +87,13 @@ $(function(){
         //Upload progress
         xhr.upload.addEventListener("progress", function(evt){
           if (evt.lengthComputable) {
-            var percentComplete = 100 * (evt.loaded / evt.total);
-            $("#progressText").text(percentComplete);
+            var percentComplete = (evt.loaded / evt.total);
             //Do something with upload progress
             console.log(percentComplete);
+            $("#progressBar").width(percentComplete * $(".progressContainer").width());
+            if(percentComplete > .2){
+              $("#progressBar").text(100 * percentComplete);
+            }
           }
         }, false);
         return xhr;
