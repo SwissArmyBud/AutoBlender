@@ -78,6 +78,7 @@ var routes = routeBuilder(io, __dirname + "/Website/uploads/", fsHelper.ACCEPTED
 // Setup upload manager, static path, and basic routes with view controller
 app.use(busboy()); // file upload
 app.use(express.static(path.join(__dirname, 'Website/public'))); // static path
+app.use(express.static(path.join(__dirname, 'Website/downloads'))); // static path
 app.set('view engine', 'ejs'); // view engine
 app.set('views', path.join(__dirname, 'Website/views/pages')); // views path
 app.use(routes); // routes

@@ -54,8 +54,10 @@ socket.on("uploadStatus", function(data){
       break;
     }
     // BLENDER RENDERING DONE
-    case("::BRE"):{
+    case("::RDY"):{
       console.log("Files ready for download!");
+      $("#downloadFileArea").css("visibility", "visible");
+      $("#downloadFileArea").append($("<a/>").attr("href", "/" + socket.id + ".blend").text("DOWNLOAD"));
       break;
     }
   }
