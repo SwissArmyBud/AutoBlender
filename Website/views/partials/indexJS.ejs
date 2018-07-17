@@ -91,6 +91,7 @@ $(function(){
             //Do something with upload progress
             console.log(percentComplete);
             $("#progressBar").width(percentComplete * $(".progressContainer").width());
+            console.log("Width: " + $(".progressBar").width())
             if(percentComplete > .2){
               $("#progressBar").text(100 * percentComplete);
             }
