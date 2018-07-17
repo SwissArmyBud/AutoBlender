@@ -87,6 +87,10 @@ $(function(){
     console.log("Change in file!");
     $("#uploadButton").css("visibility", "visible");
   }); // on file input change
+  $(".downloadButton").click(function(event){
+    event.preventDefault();
+    $(".downloadLink").click();
+  })
   $("#uploadButton").click(function(event){
     event.preventDefault();
     console.log("Upload button clicked!");
