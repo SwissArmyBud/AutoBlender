@@ -89,9 +89,11 @@ $(function(){
             var percentComplete = (evt.loaded / evt.total);
             //Do something with upload progress
             console.log(percentComplete);
-            $(".progressBar").width($(".progressContainer").width() * percentComplete);
+            $(".progressBar").animate({
+              width: $(".progressContainer").width() * percentComplete
+            }, 100 );
             if(percentComplete > .2){
-              $(".progressBar").text(100 * percentComplete);
+              $(".progressBar").text(parseInt(100 * percentComplete));
             }
           }
         }, false);
