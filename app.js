@@ -40,7 +40,7 @@ var autoBlender = function(error, filename, socketID){
       } else {
         // TODO - Stop faking these variables (set from site)
         var renderCore = "VUmeter";
-        var melBins = 8;
+        var melBins = 10;
         // Start audio processing (socket IO, app path, core, bins, socketID, cb)
         pyRunner.startAudioAnalysis(io, __dirname, renderCore, melBins, socketID, function(error){
           if(error){
