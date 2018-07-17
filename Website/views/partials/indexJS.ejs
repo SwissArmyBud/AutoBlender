@@ -53,6 +53,11 @@ socket.on("uploadStatus", function(data){
       $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
       break;
     }
+    // BLENDER RENDERING DONE
+    case("::BRE"):{
+      console.log("Files ready for download!");
+      break;
+    }
   }
 });
 //socket.on('event', function(data){});
