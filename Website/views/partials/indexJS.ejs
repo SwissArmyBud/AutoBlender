@@ -73,6 +73,11 @@ socket.on("uploadStatus", function(data){
         $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
       }, 80);
       $("#downloadLink").attr("href", "/" + socket.id + ".blend");
+      $("#downloadButton").click(function(event){
+        event.preventDefault();
+        console.log("Trying to download...");
+        $("#linkHandle").click();
+      })
       $("#downloadFileArea").css("visibility", "visible");
       break;
     }
@@ -87,11 +92,6 @@ $(function(){
     console.log("Change in file!");
     $("#uploadButton").css("visibility", "visible");
   }); // on file input change
-  $("#downloadButton").click(function(event){
-    event.preventDefault();
-    console.log("Trying to download...");
-    $("#downloadLink").click();
-  })
   $("#uploadButton").click(function(event){
     event.preventDefault();
     console.log("Upload button clicked!");
