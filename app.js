@@ -48,7 +48,7 @@ var autoBlender = function(error, filename, socketID){
             console.log(error);
           } else {
             console.log("Analysis done for socketID -> " + socketID);
-            pyRunner.startBlenderEngine(io, socketID, function(error){
+            pyRunner.startBlenderEngine(io, __dirname, socketID, function(error){
               if(error){
                 console.log(error);
               } else {

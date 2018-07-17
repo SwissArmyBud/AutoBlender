@@ -27,7 +27,7 @@ module.exports = {
     });
     // Spin up next child when processing done
     pyBlender.on('close',  function(code){
-      console.log(socketID + 'child process exited with code:' + parseInt(code));
+      console.log(socketID + ' child process exited with code:' + parseInt(code));
       io.sockets.to(socketID).emit("uploadStatus", {status: "::PYD"});
       if(cb && typeof(cb)=="function"){
         cb(code);
