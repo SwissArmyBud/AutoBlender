@@ -3,7 +3,7 @@ var child = require('child_process').spawn;
 var unbufferedPythonENV = process.env;
 unbufferedPythonENV.PYTHONUNBUFFERED = "on";
 
-var scriptPath = "./Website/downloads/" + socketID + ".brs";
+var scriptPath = "./Website/downloads/kECenw5-nTiMXDwaAAAB.brs";
 var renderEngine = child("blender", ["-b", "-P", scriptPath, "--", socketID, 6], options={
 	cwd: __dirname,
 	env: unbufferedPythonENV
