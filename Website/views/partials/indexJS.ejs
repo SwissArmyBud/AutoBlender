@@ -72,7 +72,7 @@ socket.on("uploadStatus", function(data){
       setTimeout(function(){
         $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
       }, 80);
-      $(".downloadLink").attr("href", "/" + socket.id + ".blend"));
+      $(".downloadLink").attr("href", "/" + socket.id + ".blend");
       $("#downloadFileArea").css("visibility", "visible");
       break;
     }
