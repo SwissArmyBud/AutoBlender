@@ -79,7 +79,6 @@ $(function(){
     console.log("Submitting form!");
     var formData = new FormData($("#uploadForm")[0]);
     $("#fileUploadProgress").css("visibility", "visible");
-    $("#fileUploadProgress").append($("<div/>").attr("id", "progressText"));
     $.ajax({
       xhr: function()
       {
@@ -90,10 +89,9 @@ $(function(){
             var percentComplete = (evt.loaded / evt.total);
             //Do something with upload progress
             console.log(percentComplete);
-            $("#progressBar").width(percentComplete * $(".progressContainer").width());
-            console.log("Width: " + $(".progressBar").width())
+            $(".progressBar").width($(".progressContainer").width() * percentComplete);
             if(percentComplete > .2){
-              $("#progressBar").text(100 * percentComplete);
+              $(".progressBar").text(100 * percentComplete);
             }
           }
         }, false);
