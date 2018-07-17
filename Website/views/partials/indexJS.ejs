@@ -23,12 +23,6 @@ var updateBlenderConsole = function(text){
 
 socket.on("uploadStatus", function(data){
   switch(data.status){
-    // SOCKET ID PROVIDED
-    case("::SID"):{
-      console.log("Incoming status update:");
-      console.log(data);
-      break;
-    }
     // UPLOAD DONE
     case("::UPD"):{
       console.log("Incoming status update:");
