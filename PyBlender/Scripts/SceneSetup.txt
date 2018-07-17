@@ -10,6 +10,7 @@ frameSkip = int(sys.argv[7])
 
 def sout(input):
 	print(input)
+	sys.stdout.flush()
 
 # let the user know Blender is working
 #
