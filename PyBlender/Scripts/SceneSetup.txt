@@ -4,12 +4,6 @@ from math import sin, cos, pi
 from mathutils import Vector, Quaternion
 import time
 
-sout("   **TRYING TO ADD MUSIC**")
-scene = context.scene
-if not scene.sequence_editor:
-	scene.sequence_editor_create()
-bpy.ops.sequencer.sound_strip_add(filepath="./Website/uploads/" + socketID + ".mp3", frame_start=0)
-time.sleep(2)
 
 socketID = sys.argv[6]
 frameSkip = int(sys.argv[7])
@@ -17,6 +11,13 @@ frameSkip = int(sys.argv[7])
 def sout(input):
 	print(input)
 	sys.stdout.flush()
+
+sout("   **TRYING TO ADD MUSIC**")
+scene = context.scene
+if not scene.sequence_editor:
+	scene.sequence_editor_create()
+bpy.ops.sequencer.sound_strip_add(filepath="./Website/uploads/" + socketID + ".mp3", frame_start=0)
+time.sleep(2)
 
 # let the user know Blender is working
 #
