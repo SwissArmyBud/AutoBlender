@@ -42,6 +42,7 @@ socket.on("uploadStatus", function(data){
     case("::PYD"):{
       console.log("Incoming status update:");
       console.log(data);
+      $("#fileProcessingProgress").animate({ height: 200 }, 500 );
       $("#blenderRenderingProgress").css("visibility", "visible");
       updateBlenderConsole("Rendering started...");
       break;
@@ -56,6 +57,7 @@ socket.on("uploadStatus", function(data){
     // BLENDER RENDERING DONE
     case("::RDY"):{
       console.log("Files ready for download!");
+      $("#blenderRenderingProgress").animate({ height: 200 }, 500 );
       $("#downloadFileArea").css("visibility", "visible");
       $("#downloadFileArea").append($("<a/>").attr("href", "/" + socket.id + ".blend").text("DOWNLOAD"));
       break;
@@ -91,9 +93,9 @@ $(function(){
             console.log(percentComplete);
             $(".progressBar").animate({
               width: $(".progressContainer").width() * percentComplete
-            }, 100 );
+            }, 10 );
             if(percentComplete > .2){
-              $(".progressBar").text(parseInt(100 * percentComplete));
+              $(".progressBar").text(parseInt(100 * percentComplete) + "%");
             }
           }
         }, false);
