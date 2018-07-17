@@ -16,9 +16,8 @@ sout("   **TRYING TO ADD MUSIC**")
 scene = context.scene
 if not scene.sequence_editor:
 	scene.sequence_editor_create()
-bpy.ops.sequencer.sound_strip_add(filepath="./Website/uploads/" + socketID + ".mp3", frame_start=0)
+scene.sequence_editor.sequences.new_sound("song", "./Website/uploads/" + socketID + ".mp3", 0, 0)
 time.sleep(2)
-
 # let the user know Blender is working
 #
 sout("")
