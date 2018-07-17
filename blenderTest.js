@@ -1,4 +1,5 @@
 var child = require('child_process').spawn;
+
 var unbufferedPythonENV = process.env;
 unbufferedPythonENV.PYTHONUNBUFFERED = "on";
 
@@ -10,10 +11,7 @@ var renderEngine = child("blender", ["-b", "-P", scriptPath, "--", socketID, 6],
 // Grab output and send back to client
 renderEngine.stdout.on('data', function(buffer){
 	var bufferString = buffer.toString();
-	io.sockets.to(socketID).emit("uploadStatus", {
-		status: "::BRE",
-		stdout: bufferString
-	});
+
 	console.log('stdout:');
 	console.log(bufferString);
 });
@@ -24,9 +22,5 @@ renderEngine.stderr.on('data',  function(buffer){
 });
 // Fire callback on done, with exit code
 renderEngine.on('close',  function(code){
-	console.log(socketID + 'child process exited with code:' + parseInt(code));
-	io.sockets.to(socketID).emit("uploadStatus", {status: "::BRD"});
-	if(cb && typeof(cb)=="function"){
-		cb(code);
-	}
+	console.log('child process exited with code:' + parseInt(code));
 });
