@@ -72,7 +72,7 @@ socket.on("uploadStatus", function(data){
       setTimeout(function(){
         $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
       }, 80);
-      $(".downloadLink").attr("href", "/" + socket.id + ".blend");
+      $("#downloadLink").attr("href", "/" + socket.id + ".blend");
       $("#downloadFileArea").css("visibility", "visible");
       break;
     }
@@ -87,9 +87,9 @@ $(function(){
     console.log("Change in file!");
     $("#uploadButton").css("visibility", "visible");
   }); // on file input change
-  $(".downloadButton").click(function(event){
+  $("#downloadButton").click(function(event){
     event.preventDefault();
-    $(".downloadLink").click();
+    $("#downloadLink").click();
   })
   $("#uploadButton").click(function(event){
     event.preventDefault();
@@ -109,11 +109,11 @@ $(function(){
             var percentComplete = (evt.loaded / evt.total);
             //Do something with upload progress
             console.log(percentComplete);
-            $(".progressBar").animate({
-              width: $(".progressContainer").width() * percentComplete
+            $("#uploadProgressBar").animate({
+              width: $("#uploadProgressContainer").width() * percentComplete
             }, 10 );
             if(percentComplete > .2){
-              $(".progressBar").text(parseInt(100 * percentComplete) + "%");
+              $("#uploadProgressBar").text(parseInt(100 * percentComplete) + "%");
             }
           }
         }, false);
