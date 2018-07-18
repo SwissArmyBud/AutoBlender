@@ -1,4 +1,4 @@
-var HTTP_LISTENING_PORT = 30303;
+var HTTP_LISTENING_PORT = 6363;
 
 // System Utils
 var path = require('path');     //used for file path
