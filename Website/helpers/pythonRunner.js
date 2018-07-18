@@ -17,12 +17,10 @@ module.exports = {
         status: "::PY3",
         stdout: bufferString
       });
-      console.log('stdout:');
-      console.log(bufferString);
     });
     // Error to cosole for debug
     pyBlender.stderr.on('data',  function(buffer){
-      console.log('stderr:');
+      console.log(socketID + ' stderr:');
       console.log(buffer.toString());
     });
     // Spin up next child when processing done
@@ -50,12 +48,10 @@ module.exports = {
         status: "::BRE",
         stdout: bufferString
       });
-      console.log('stdout:');
-      console.log(bufferString);
     });
     // Error to cosole for debug
     renderEngine.stderr.on('data',  function(buffer){
-      console.log('stderr:');
+      console.log(socketID + ' stderr:');
       console.log(buffer.toString());
     });
     // Fire callback on done, with exit code
