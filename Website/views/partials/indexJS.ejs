@@ -87,8 +87,6 @@ socket.on("uploadStatus", function(data){
     }
   }
 });
-//socket.on('event', function(data){});
-//socket.on('disconnect', function(){});
 
 $(function(){
   console.log("JQuery loaded!");
@@ -135,6 +133,8 @@ $(function(){
         console.log("Upload error!");
         console.log(textStatus);
         console.log(errorThrown);
+        $("#uploadProgressBar").text("ERROR");
+        $("#uploadProgressBar").css("background-color", "#ffe5e5");
       },
       cache: false,
       contentType: false,
