@@ -14,31 +14,25 @@ def processMusic(socketID, melBins, core):
 	melBins = int(melBins)
 	frameRate = 24
 	sampleRate = 1000 * frameRate
-	sout("")
-	sout("")
-	sout("Loading song into pyBlender.....")
 
 	# load music into librosa
 	#
-	y, sr = librosa.load(mp3Path, sr=sampleRate)
 	sout("")
+	sout("Loading song into pyBlender.....")
+	y, sr = librosa.load(mp3Path, sr=sampleRate)
 	sout("**Loading Finished**")
 	sout("")
-	time.sleep(1)
 
+	# setup librosa functions/processing
+	#
 	sout("")
 	sout("")
 	sout("Tempo/Beats Processing Engine")
 	sout("--------------")
 	sout("")
-
-	# setup librosa functions/processing
-	#
 	tempo, beats = librosa.beat.beat_track(y=y, sr=sampleRate)
 	beatArray = librosa.frames_to_time(beats, sr=sr)
-
-	# sout out some information about what we're working with
-	#
+	sout("**Analysis Finished**")
 	sout("Beats: " + str(len(beats)))
 	sout("Tempo: " + str(int(tempo)))
 
@@ -53,13 +47,7 @@ def processMusic(socketID, melBins, core):
 		frameArray.append(int(i*24))
 
 	np.savetxt("./Website/downloads/" +  socketID + ".bts", frameArray)
-
-	# confirm script execution
-	#
-	sout("")
 	sout("**Frame Array Construction Finished**")
-	sout("")
-	time.sleep(2)
 
 	# script setup and housekeeping for VOLUME PROCESSING
 	#
@@ -69,26 +57,22 @@ def processMusic(socketID, melBins, core):
 	sampleHop = int((sampleRate/frameRate)/samplesPerFrame)
 	scaleFactor = 100/80
 
+	# setup librosa functions/processing
+	#
 	sout("")
 	sout("")
 	sout("Volume Processing Engine")
 	sout("--------------")
 	sout("")
-
-	# setup librosa functions/processing
-	#
 	S = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=1, fmax=8000, hop_length = sampleHop)
 	librosaMel = librosa.amplitude_to_db(S, ref=np.max)
 
 	# sout out some information about what we're working with
 	samples = len(librosaMel[0])
-	sout("Samples: " + str(samples))
-
 	frames = samples/samplesPerFrame
+	sout("Samples: " + str(samples))
 	sout("Anim. Frames: " + str(frames))
-
 	sout("Samples/Frame: " + str(samplesPerFrame))
-
 	sout("Seconds: " + str(frames/frameRate))
 
 	# convert the bin based Mel spectrogram array to a time based array
@@ -115,13 +99,7 @@ def processMusic(socketID, melBins, core):
 		frameArray.append(tmpArry)
 
 	np.savetxt("./Website/downloads/" +  socketID + ".vol", frameArray)
-
-	# confirm script execution
-	#
-	sout("")
 	sout("**Frame Array Construction Finished**")
-	sout("")
-	time.sleep(2)
 
 	# script setup and housekeeping for MEL BINS PROCESSING
 	#
@@ -132,25 +110,27 @@ def processMusic(socketID, melBins, core):
 	sampleRate = 1000 * frameRate
 	sampleHop = int((sampleRate/frameRate)/samplesPerFrame)
 	scaleFactor = 100/80
+
+	# setup librosa functions/processing
+	#
 	sout("")
 	sout("")
 	sout("Mel Spectrogram Processing Engine")
 	sout("--------------")
-
-	# setup librosa functions/processing
-	#
+	sout("")
 	Q = librosa.feature.melspectrogram(y=y, sr=sampleRate, n_mels=melBins, fmax=8000, hop_length = sampleHop)
 	librosaMel = librosa.amplitude_to_db(Q, ref=np.max)
 
 	# sout out some information about what we're working with
 	#
 	samples = len(librosaMel[0])
-	sout("Samples: " + str(samples))
 	frames = samples/samplesPerFrame
+	sout("Samples: " + str(samples))
 	sout("Anim. Frames: " + str(frames))
 	sout("Samples/Frame: " + str(samplesPerFrame))
 	sout("Seconds: " + str(frames/frameRate))
 	sout("Mel Bins: " + str(melBins))
+
 	# convert the bin based Mel spectrogram array to a time based array
 	#
 	timeArray = []
@@ -175,28 +155,20 @@ def processMusic(socketID, melBins, core):
 		frameArray.append(tmpArry)
 
 	np.savetxt("./Website/downloads/" +  socketID + ".mel", frameArray)
-
-	# confirm script execution
-	#
-	sout("")
 	sout("**Frame Array Construction Finished**")
-	sout("")
-	time.sleep(2)
 
 	# setup and housekeeping for CORE PROCESSING
 	#
+	scenePath  =  "./PyBlender/Scripts/SceneSetup.txt"
+	corePath   =  "./PyBlender/Scripts/RenderingCores/" + core + ".txt"
+	tailPath  =  "./PyBlender/Scripts/SceneTail.txt"
+	scriptPath =  "./Website/downloads/" + socketID + ".brs"
+
 	sout("")
 	sout("")
 	sout("Scene\\Render Core Fusion Engine")
 	sout("--------------")
 	sout("")
-
-	scenePath  =  "./PyBlender/Scripts/SceneSetup.txt"
-	corePath   =  "./PyBlender/Scripts/RenderingCores/" + core + ".txt"
-	tailPath  =  "./PyBlender/Scripts/SceneTail.txt"
-	#TODO - Fix this missing file from project
-	scriptPath =  "./Website/downloads/" + socketID + ".brs"
-
 	sout("Scene will be rendered with core:")
 	sout(corePath)
 
@@ -205,17 +177,12 @@ def processMusic(socketID, melBins, core):
 		for file in filenames:
 			with open(file) as inputFile:
 				outputFile.write(inputFile.read().replace(socketID, "%SID%"))
-
-	# confirm script execution
-	#
-	sout("")
 	sout("**Render Script Construction Finished**")
-	sout("")
-	time.sleep(2)
 
 
 def sout(input):
 	print(input)
+	time.sleep(.1)
 
 def main(args):
 	# # script setup and housekeeping
@@ -226,22 +193,16 @@ def main(args):
 	# 	format = '[webPy]: %(message)s'
 	# )
 
-	sout("autoBlender PyBlender Service - *Started* @ %s" % time.ctime())
-	sout("");
+	sout("autoBlender's PyBlender Service - *Started* @ %s" % time.ctime())
 	sout("");
 	sout("System:")
 	sout("---------------------------")
 	sout("Args: " + ', '.join(args))
-	sout("CWD: " + os.getcwd())
 	sout("")
 	socketID = args[3]
 	core = args[1]
 	melBins = args[2]
 	processMusic(socketID, melBins, core)
-	sout("")
-	sout("")
-	sout("")
-	sout("")
 
 if __name__ == '__main__':
     main(sys.argv)
