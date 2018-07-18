@@ -1,0 +1,112 @@
+<!-- views/pages/index.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../partials/head %>
+    <% include ../partials/indexCSS %>
+  </head>
+  <body class="container">
+
+    <header>
+      <% include ../partials/topmenu %>
+    </header>
+
+    <main>
+      <div class="jumbotron">
+        <h1 class="center">AutoBlender</h1>
+        <p class="center">Welcome to pyBlender using Node.JS to provide a web-app experience!</p>
+
+        <div class="applicationframe">
+
+          <!--
+          HIDDEN form for AJAX submission
+          -->
+          <div id="loadFileArea" style="height:0.1px;">
+            <form name="uploadForm" id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
+              <input type="file" name="fileInput" id="fileInput" accept=".mp3,MP3" style="visibility:hidden; width:0.1px;"/>
+              <input type="text" name="socketID" id="socketID" style="visibility:hidden; width:0.1px"/>
+            </form>
+          </div>
+
+          <!--
+          Select/Upload File Area
+          -->
+          <div class="center children section" id="fileSelectArea">
+            <div class="section text">
+              Get Going:
+            </div>
+            <div class="center children">
+              <label class="center select button" for="fileInput">
+                Choose an MP3
+              </label>
+            </div>
+            <div class="center children">
+              <label class="center upload button" id="uploadButton" style="visibility:hidden;">
+                Blend it!
+              </label>
+            </div>
+          </div>
+
+          <!--
+          Progress Bar for Upload
+          -->
+          <div class="center children section" id="fileUploadProgress" style="visibility:hidden;">
+            <hr/>
+            <div class="section text">
+              Progress:
+            </div>
+            <div class="progressContainer" id="uploadProgressContainer">
+              <div class="progressBar" id="uploadProgressBar">
+              </div>
+            </div>
+          </div>
+
+          <!--
+          Python3 console
+          -->
+          <div class="center children section" id="pythonConsole" style="visibility:hidden;">
+            <hr/>
+            <div class="section text">
+              pyBlender:
+            </div>
+            <div class="matrix section" id="fileProcessingProgress">
+            </div>
+          </div>
+
+          <!--
+          Blender console
+          -->
+          <div class="center children section" id="blenderConsole" style="visibility:hidden;">
+            <hr/>
+            <div class="section text">
+              Blender Engine:
+            </div>
+            <div class="matrix section" id="blenderRenderingProgress">
+            </div>
+          </div>
+
+          <!--
+          Download "link"
+          -->
+          <div class="center children section" id="downloadFileArea" style="visibility:hidden;">
+            <hr/>
+            <a id="downloadLink" target="_blank" style="visibility:hidden;"><span id="linkHandle"/></a>
+            <div class="section text">
+              Scene File:
+            </div>
+            <label class="center select button" for="downloadLink" id="downloadButton">Download</label>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <% include ../partials/indexJS %>
+
+    <footer>
+      <% include ../partials/footer %>
+    </footer>
+
+  </body>
+</html>

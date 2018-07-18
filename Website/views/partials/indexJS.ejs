@@ -1,0 +1,142 @@
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+var socket = io();
+socket.on('connect', function(){console.log("Connected to socketIO!");});
+
+var audioShellTag = "PyBlender> ";
+var audioConsole = audioShellTag;
+var updateAudioConsole = function(text){
+  text.replace("\r", "<br/>" + audioShellTag);
+  audioConsole += text + "<br/>" + audioShellTag;
+  $("#fileProcessingProgress").html(audioConsole);
+}
+
+var renderShellTag = "BlenderEngine> ";
+var blenderConsole = renderShellTag;
+var updateBlenderConsole = function(text){
+  text.replace("\r", "<br/>" + renderShellTag);
+  blenderConsole += text + "<br/>" + renderShellTag;
+  $("#blenderRenderingProgress").html(blenderConsole);
+}
+
+socket.on("uploadStatus", function(data){
+  switch(data.status){
+    // UPLOAD DONE
+    case("::UPD"):{
+      console.log("Incoming status update:");
+      console.log(data);
+      var nextSection = $("#fileProcessingProgress");
+      nextSection.css("height", "0");
+      $("#pythonConsole").css("visibility", "visible");
+      nextSection.animate({
+        height: $("#fileProcessingProgress").css("max-height")
+      }, 500 );
+      updateAudioConsole("Processing started...");
+      break;
+    }
+    // PYTHON3 CHILD STATUS
+    case("::PY3"):{
+      console.log(data.stdout);
+      updateAudioConsole(data.stdout);
+      $("#fileProcessingProgress")[0].scrollTop = $("#fileProcessingProgress")[0].scrollHeight;
+      break;
+    }
+    // PYTHON3 CHILD DONE
+    case("::PYD"):{
+      console.log("Incoming status update:");
+      console.log(data);
+      // Transition to minimized state
+      $("#fileProcessingProgress").animate({ height: 75 }, 500 );
+      setTimeout(function(){
+        $("#fileProcessingProgress")[0].scrollTop = $("#fileProcessingProgress")[0].scrollHeight + 500;
+      }, 550);
+      // Transition the next section in
+      var nextSection = $("#blenderRenderingProgress");
+      nextSection.css("height", "0");
+      $("#blenderConsole").css("visibility", "visible");
+      nextSection.animate({
+        height: $("#blenderRenderingProgress").css("max-height")
+      }, 500 );
+      updateBlenderConsole("Rendering started...");
+      break;
+    }
+    // BLENDER RENDERING ENGINE
+    case("::BRE"):{
+      console.log(data.stdout);
+      updateBlenderConsole(data.stdout);
+      $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
+      break;
+    }
+    // BLENDER RENDERING DONE
+    case("::RDY"):{
+      console.log("Files ready for download!");
+      $("#blenderRenderingProgress").animate({ height: 75 }, 500 );
+      setTimeout(function(){
+        $("#blenderRenderingProgress")[0].scrollTop = $("#blenderRenderingProgress")[0].scrollHeight;
+      }, 550);
+      $("#downloadLink").attr("href", "/" + socket.id + ".blend");
+      $("#downloadButton").click(function(event){
+        event.preventDefault();
+        console.log("Trying to download...");
+        $("#linkHandle").click();
+      });
+      $("#downloadFileArea").css("visibility", "visible");
+      break;
+    }
+  }
+});
+//socket.on('event', function(data){});
+//socket.on('disconnect', function(){});
+
+$(function(){
+  console.log("JQuery loaded!");
+  $("#fileInput").on('change', function(event){
+    console.log("Change in file!");
+    $("#uploadButton").css("visibility", "visible");
+  }); // on file input change
+  $("#uploadButton").click(function(event){
+    event.preventDefault();
+    console.log("Upload button clicked!");
+    $("#socketID").val(socket.id);
+    console.log($("#uploadForm"));
+    console.log("Submitting form!");
+    var formData = new FormData($("#uploadForm")[0]);
+    $("#fileUploadProgress").css("visibility", "visible");
+    $.ajax({
+      xhr: function()
+      {
+        var xhr = new window.XMLHttpRequest();
+        //Upload progress
+        xhr.upload.addEventListener("progress", function(evt){
+          if (evt.lengthComputable) {
+            var percentComplete = (evt.loaded / evt.total);
+            //Do something with upload progress
+            console.log(percentComplete);
+            $("#uploadProgressBar").animate({
+              width: $("#uploadProgressContainer").width() * percentComplete
+            }, 10 );
+            if(percentComplete > .2){
+              $("#uploadProgressBar").text(parseInt(100 * percentComplete) + "%");
+            }
+          }
+        }, false);
+        return xhr;
+      },
+      url: "/upload",
+      type: 'POST',
+      data: formData,
+      success: function (data) {
+        console.log("Finished upload!");
+        console.log(data);
+      },
+      cache: false,
+      contentType: false,
+      processData: false
+    }); // ajax process
+  }); // upload button click
+
+
+}); // jQuery ready
+</script>

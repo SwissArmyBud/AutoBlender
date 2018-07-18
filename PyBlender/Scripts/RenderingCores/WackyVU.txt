@@ -1,0 +1,138 @@
+# THIS IS THE BEGINNING OF THE RENDERING CORE FOR BLENDER
+#
+
+for i in range(0,melBins):
+
+	# housekeeping and setup for each object
+	#
+	(varA,varB,varC) = (0.0, 0.5, 1.0)
+
+	faces = ((0,1,5,4), (1,2,5), (0,4,3), (0,3,2,1), (2,3,4,5))
+
+	verts = ((varB,varB,varC), (varB,-varB,varC), (-varB,-varB,varC), (-varB,varB,varC), (varB,varB,varA), (varB,-varB,varA))
+
+
+
+	objectName = 'CustomObject'
+	currentBeat = 0
+
+	# let the user know which object is being worked on
+	#
+	sout("")
+	sout("Object being animated: " + str(i+1))
+
+	# setup the object mesh and material and insert into scene
+	#
+	me = bpy.data.meshes.new(objectName+'Mesh'+ str(i))
+	ob = bpy.data.objects.new(objectName + str(i), me)
+
+	mat = bpy.data.materials.new("CustomColor" + str(i))
+	mat.diffuse_color = (1,1,1)
+	ob.active_material = mat
+
+	scn.objects.link(ob)
+	scn.objects.active = ob
+
+	ob.show_name = False
+	ob.rotation_mode = 'QUATERNION'
+
+	me.from_pydata(verts, [], faces)
+	me.update()
+
+	# script the animation for each object
+	#
+	for frame in range (1,int(maxFrames/frameSkip)):
+
+		# basic setup and housekeeping for frame animation
+		#
+		frameNumber = frame * frameSkip
+		frameMelDataPerBin = float((MelData[frameNumber])[i])
+
+		frameIsBeat = False
+		if beatFrames[currentBeat] <= frameNumber:
+			frameIsBeat = True
+			if (currentBeat != (len(beatFrames)-1)):
+				currentBeat = currentBeat + 1
+
+
+		# set the object scaling in multiples (SCALING PIPES)
+		#
+		scaleX = 1
+
+		scaleY = (float(volumeData[frameNumber])/10) + 0.1
+
+		scaleZ = frameMelDataPerBin
+		scaleZ = (scaleZ/20) + 0.1
+		scaleZ = scaleZ*scaleZ*scaleZ
+
+
+		# set the object color in percent (COLOR PIPES)
+		#
+		colRed =   2.8*frameMelDataPerBin
+		colGreen = (100 - colRed)
+		colBlue = (cos(beatFrames[currentBeat] * i) + 1) / 2
+
+
+		# set the object location in units (LOCATION PIPES)
+		#
+		locX = i-(melBins/2)
+		locY = sin( i + (frameNumber / 100) )
+		locZ = 0
+
+
+		# set the object rotation in degrees (ROTATION PIPES)
+		#
+		angleY = 0
+		angleZ = ((beatFrames[currentBeat]) * (i-(melBins/2)))/10
+		angleX = 0
+
+
+
+		# manipulate the incoming data, perform animations, and set keyframes
+		#
+
+		ob.scale = (scaleX, scaleY, scaleZ)
+
+		ob.keyframe_insert(data_path="scale", index=-1, frame=frameNumber)
+
+
+		colRed = colRed/100
+		colGreen = colGreen/100
+		colBlue = colBlue/100
+		mat.diffuse_color = (colRed,colGreen,colBlue)
+
+		mat.keyframe_insert(data_path="diffuse_color", index=-1, frame=frameNumber)
+
+
+		ob.location = (locX,locY,locZ)
+
+		ob.keyframe_insert(data_path="location", index = -1, frame=frameNumber)
+
+
+		angleX = (((angleX%360)-180)/180)*(pi)
+		angleY = (((angleY%360)-180)/180)*(pi)
+		angleZ = (((angleZ%360)-180)/180)*(pi)
+		axisX = [1,0,0]
+		axisY = [0,1,0]
+		axisZ = [0,0,1]
+
+		objectRotation = Quaternion(axisX,angleX) * Quaternion(axisY,angleY) * Quaternion(axisZ,angleZ)
+		objectRotation.normalize()
+		ob.rotation_quaternion = objectRotation
+
+		ob.keyframe_insert(data_path="rotation_quaternion", index = -1, frame=frameNumber)
+
+
+		# print out some information about the rendering process
+		#
+		if(frameNumber%1000==0):
+			sout("Frame " + str(frameNumber) + " finished...")
+
+	# print out some information about the rendering process and forget about the finished object
+	#
+	sout("Object " + str(i+1) + " finished, with " + str(maxFrames) + " frames keyed.")
+	ob.select = False
+
+#
+# THIS IS THE END OF THE RENDERING CORE FOR BLENDER
+#

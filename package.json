@@ -1,0 +1,18 @@
+{
+  "name": "song-blender",
+  "version": "1.0.0",
+  "description": "Song Blender, using AutoBlender and PyBlender",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrew Porter",
+  "license": "ISC",
+  "dependencies": {
+    "connect-busboy": "0.0.2",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "fs-extra": "^6.0.1",
+    "socket.io": "^2.1.1"
+  }
+}
