@@ -29,8 +29,10 @@ socket.on("uploadStatus", function(data){
       console.log(data);
       var nextSection = $("#fileProcessingProgress");
       nextSection.css("height", "0");
-      nextSection.css("visibility", "visible");
-      nextSection.animate({ height: nextSection.css("max-height") }, 500 );
+      $("#pythonConsole").css("visibility", "visible");
+      nextSection.animate({
+        height: $("#fileProcessingProgress").css("max-height")
+      }, 500 );
       updateAudioConsole("Processing started...");
       break;
     }
@@ -53,8 +55,10 @@ socket.on("uploadStatus", function(data){
       // Transition the next section in
       var nextSection = $("#blenderRenderingProgress");
       nextSection.css("height", "0");
-      nextSection.css("visibility", "visible");
-      nextSection.animate({ height: nextSection.css("max-height") }, 500 );
+      $("#blenderConsole").css("visibility", "visible");
+      nextSection.animate({
+        height: $("#blenderRenderingProgress").css("max-height")
+      }, 500 );
       updateBlenderConsole("Rendering started...");
       break;
     }
@@ -77,8 +81,7 @@ socket.on("uploadStatus", function(data){
         event.preventDefault();
         console.log("Trying to download...");
         $("#linkHandle").click();
-      })
-      $("#linkHandle").click();
+      });
       $("#downloadFileArea").css("visibility", "visible");
       break;
     }
