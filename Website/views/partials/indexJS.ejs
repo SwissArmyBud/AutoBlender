@@ -124,12 +124,17 @@ $(function(){
         }, false);
         return xhr;
       },
-      url: "/upload",
+      url: "https://autoblender.portercustoms.com/upload",
       type: 'POST',
       data: formData,
       success: function (data) {
         console.log("Finished upload!");
         console.log(data);
+      },
+      error: function (jqXHR, textStatus, errorThrown ) {
+        console.log("Upload error!");
+        console.log(textStatus);
+        console.log(errorThrown);
       },
       cache: false,
       contentType: false,
