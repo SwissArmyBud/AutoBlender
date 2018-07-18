@@ -11,6 +11,8 @@ frameSkip = int(sys.argv[7])
 def sout(input):
 	print(input)
 	sys.stdout.flush()
+	time.sleep(.1)
+
 
 # sout("   **TRYING TO ADD MUSIC**")
 # scene = context.scene
@@ -18,13 +20,14 @@ def sout(input):
 # 	scene.sequence_editor_create()
 # scene.sequence_editor.sequences.new_sound("song", "Website/uploads/" + socketID + ".mp3", 1, 1)
 # time.sleep(2)
+
+
 # let the user know Blender is working
 #
 sout("")
 sout("")
-sout("     ATTN: Blender is now working!      ")
-sout("----------------------------------------")
-sout("")
+sout("     Blender is now working!      ")
+sout("----------------------------------")
 sout("")
 
 # open and load the beat times information
@@ -42,9 +45,8 @@ for i in range(len(beatData)):
     beatFrames.append(int(float(tmp)))
 
 sout("Beats Finished Importing")
-sout("Beats: " + str(len(beatData)))
+sout("->Beats: " + str(len(beatData)))
 sout("")
-time.sleep(1)
 
 # open and load the mel volume information
 #
@@ -66,10 +68,9 @@ maxFrames = len(MelData)
 melBins = len(MelData[0])
 
 sout("Mel Finished Importing")
-sout("Mel Frames: " + str(maxFrames))
-sout("Mel Bins: " + str(melBins))
+sout("->Frames: " + str(maxFrames))
+sout("->Bins: " + str(melBins))
 sout("")
-time.sleep(1)
 
 # setup some basic parameters before creating/animating objects
 #
@@ -80,8 +81,6 @@ origin = Vector().zero()
 meshLoc = Vector().zero()
 
 sout("Frames traveled per keyframe: " + str(frameSkip))
-sout("")
-sout("")
 sout("")
 sout("***** ANIMATION STARTED *****")
 sout("")

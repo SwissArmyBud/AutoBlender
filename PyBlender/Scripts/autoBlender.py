@@ -182,6 +182,7 @@ def processMusic(socketID, melBins, core):
 
 def sout(input):
 	print(input)
+	sys.stdout.flush()
 	time.sleep(.1)
 
 def main(args):
