@@ -22,7 +22,7 @@
           <!--
           HIDDEN form for AJAX submission
           -->
-          <div class="center section" id="loadFileArea" style="height:0.1px;">
+          <divid="loadFileArea" style="height:0.1px;">
             <form name="uploadForm" id="uploadForm" action="/" method="POST" enctype="multipart/form-data">
               <input type="file" name="fileInput" id="fileInput" accept=".mp3,MP3" style="visibility:hidden; width:0.1px;"/>
               <input type="text" name="socketID" id="socketID" style="visibility:hidden; width:0.1px"/>
@@ -52,6 +52,7 @@
           Progress Bar for Upload
           -->
           <div class="center children section" id="fileUploadProgress" style="visibility:hidden;">
+            <hr/>
             <div class="section text">
               Progress:
             </div>
@@ -65,6 +66,7 @@
           Python3 console
           -->
           <div class="center children section" id="pythonConsole" style="visibility:hidden;">
+            <hr/>
             <div class="section text">
               pyBlender:
             </div>
@@ -76,6 +78,7 @@
           Blender console
           -->
           <div class="center children section" id="blenderConsole" style="visibility:hidden;">
+            <hr/>
             <div class="section text">
               Blender Engine:
             </div>
@@ -87,6 +90,7 @@
           Download "link"
           -->
           <div class="center children section" id="downloadFileArea" style="visibility:hidden;">
+            <hr/>
             <a id="downloadLink" target="_blank" style="visibility:hidden;"><span id="linkHandle"/></a>
             <div class="section text">
               Scene File:
