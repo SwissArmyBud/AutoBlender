@@ -39,7 +39,7 @@ var autoBlender = function(error, filename, socketID){
         console.log(error);
       } else {
         // TODO - Stop faking these variables (set from site)
-        var renderCore = "WackyVU";
+        var renderCore = "DemoCore";
         var melBins = 10;
         // Start audio processing (socket IO, app path, core, bins, socketID, cb)
         pyRunner.startAudioAnalysis(io, __dirname, renderCore, melBins, socketID, function(error){
