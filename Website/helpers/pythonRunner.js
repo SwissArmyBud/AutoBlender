@@ -5,6 +5,7 @@ unbufferedPythonENV.PYTHONUNBUFFERED = "on";
 
 module.exports = {
   startAudioAnalysis: function(io, path, renderCore, melBins, socketID, cb){
+    console.log("Starting audio analysis for socketID: " + socketID);
     // Spawn an UNBUFFERED Python3 child for audio analysis
     var pyBlender = child("python3", ["./PyBlender/Scripts/autoBlender.py", renderCore, melBins, socketID], options={
       cwd: path,
