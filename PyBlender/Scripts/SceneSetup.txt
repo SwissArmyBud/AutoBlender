@@ -5,8 +5,8 @@ from mathutils import Vector, Quaternion
 import time
 
 
-socketID = sys.argv[6]
-frameSkip = int(sys.argv[7])
+socketID = sys.argv[7]
+frameSkip = int(sys.argv[8])
 
 def sout(input):
 	print(input)

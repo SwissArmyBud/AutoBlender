@@ -37,7 +37,7 @@ module.exports = {
     // blender -b -P path/my_script.py --
     // Spawn an UNBUFFERED Python3 child for audio analysis
     var scriptPath = "./Website/downloads/" + socketID + ".brs";
-    var renderEngine = child("blender", ["-b", path + "/PyBlender/Scripts/empty.blend", "-P", scriptPath, "--", socketID, 2], options={
+    var renderEngine = child("blender", ["-b", path + "/PyBlender/Scripts/empty.blend", "-P", scriptPath, "-noaudio", "--", socketID, 2], options={
       cwd: path,
       env: unbufferedPythonENV
     });
